@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{SUBJECT}} BS Test</title>
+<!--
+bs-detector report template. Copy it, fill it, remove every HTML comment (this one included).
+
+PUBLISHING
+  Standalone file: use as-is.
+  A publisher that adds its own page skeleton (Claude Artifacts): delete the <!doctype>, <html>, <head>, <body>
+  and matching closing tags, and the two <meta> lines. Keep everything that was inside them, in the same order.
+
+RULES
+  Every {{PLACEHOLDER}} is plain text to replace. Blocks between REPEAT and /REPEAT marker comments repeat once per item.
+  Don't edit the layout styles. Change the look in the brand file.
+  Escape & as &amp; in text. The fonts URL can stay as it is.
+
+BRAND PLACEHOLDERS (from the active brand file)
+  WORDMARK  TILE_LETTER  REPORT_LABEL  PROMPT  FOOTER_CREDIT  FONTS_FAMILY  BRAND_TOKENS
+  GOAL_EYEBROW  CONFIRMED_CHIP  ASSUMED_CHIP  TITLE_TALLY  TITLE_FLAGS  SUB_FLAGS  TITLE_MORE  TITLE_WORKING  TITLE_COVERAGE
+  LABEL_CAUGHT  LABEL_WHY  LABEL_FIX  LABEL_CHECKED  LABEL_COULDNT
+  SEVERITY_LABEL (per flag, by level)  VERDICT_LABEL (per pill, by verdict)
+
+CONTENT PLACEHOLDERS
+  SUBJECT        the document's title, as the author wrote it
+  DATE           review date as D Mon YYYY, e.g. 25 Sep 2026
+  DEPTH          Quick | Normal | Full          DEPTH_FLAG  quick | normal | full
+  FILE_SLUG      the document's file name, or a short slug of its title
+  LEDE           the verdict in 2-3 sentences, said out loud: what's good, whether you'd send it, the top reasons why not
+  VERDICT_CLASS  stop | warn | go
+  GOAL           "You want ... The decision on the table is ..." On unattended runs, end with one sentence on which
+                 flags change, appear or drop under a different goal.
+  GOAL_CHIP      confirmed: <span class="chip ok">CONFIRMED_CHIP DATE</span>
+                 assumed:   <span class="chip">ASSUMED_CHIP</span>
+  TALLY_SUB      one plain line with the counts, e.g. "Six claims. Two hold up, three have nothing behind them, one is flat wrong."
+  N              number of load-bearing claims (the sum of A-X)
+  A B C D E U X  counts of load-bearing claims per grade (verified, backed, sideways, no source, contradicted, can't know yet, couldn't check)
+  SEVERITY_CLASS kill | hurt | quick          NN  01-07
+  FLAG_TITLE     the problem, said out loud
+  QUOTE          verbatim from the document, markdown marks stripped. LOCATION  where it is (section, page, slide, line)
+                 A merged flag can repeat the <q> for each quote.
+  GUT_CALL       first sentence of the why     PROOF     one specific point per <li>, sources as inline links
+  IF_SENT        what happens if they send it anyway
+  MOVE           the fix, first person
+  PASTE_LOCATION / REPLACEMENT   where the new sentence goes, and a paste-ready sentence; [bracket] numbers
+                 only the author has. Repeat the paste box once per line that changes; delete it if no line changes.
+  NOTE_LEAD / NOTE_TEXT   bold lead-in and one or two lines
+  WORKING_ITEM   one thing that works
+  CHECKED_ITEM / COULDNT_ITEM   one line each: what you checked (with source links) / what you couldn't and
+                 why, what to connect, and any fallbacks used
+  FOOTER_NOTE    ledger location, or the date
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?{{FONTS_FAMILY}}&display=swap">
+<style id="brand">
+{{BRAND_TOKENS}}
+</style>
+<style id="layout">
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;margin:0;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:760px;margin:0 auto}
+a{color:var(--brand-ink)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.tile{width:34px;height:34px;border-radius:7px;background:var(--tile);color:var(--tile-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:19px}
+.word{font-family:var(--display);font-weight:800;letter-spacing:.16em;font-size:14px}
+.word span{color:var(--faint);font-weight:500;letter-spacing:.08em;margin-left:10px}
+.stamp{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+.hero{padding-block:44px 28px;display:grid;gap:14px}
+.prompt{font-family:var(--mono);font-size:13.5px;color:var(--muted);overflow-wrap:break-word}
+.prompt b{color:var(--brand-ink);font-weight:500}
+.nw{white-space:nowrap}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,6vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lede{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+.verdicts{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:14px;padding:7px 14px;border-radius:999px;border:1px solid}
+.pill i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.pill.stop{color:var(--red);background:var(--red-soft);border-color:color-mix(in srgb,var(--red) 30%,transparent)}
+.pill.stop i{background:var(--red)}
+.pill.warn{color:var(--amber);background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 30%,transparent)}
+.pill.warn i{background:var(--amber)}
+.pill.go{color:var(--brand-ink);background:var(--brand-soft);border-color:color-mix(in srgb,var(--brand) 35%,transparent)}
+.pill.go i{background:var(--brand)}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:8px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.goal p{margin:0}
+.chip{justify-self:start;font-family:var(--mono);font-size:12px;color:var(--amber);background:var(--amber-soft);padding:3px 9px;border-radius:6px}
+.chip.ok{color:var(--brand-ink);background:var(--brand-soft)}
+section{margin-top:48px}
+h2{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 18px}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;background:var(--surface-2)}
+.bar span{display:block}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 16px;margin-top:14px;font-size:14.5px}
+.legend div{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.legend b{font-variant-numeric:tabular-nums;color:var(--ink);font-family:var(--display);min-width:1.4em;text-align:right}
+.sw{width:10px;height:10px;border-radius:3px;flex:none}
+.c-ver{background:var(--brand-ink)}.c-back{background:var(--brand)}.c-side{background:color-mix(in srgb,var(--amber) 55%,var(--bg))}.c-none{background:var(--amber)}.c-con{background:var(--red)}.c-unk{background:var(--faint)}.c-x{background:color-mix(in srgb,var(--faint) 45%,var(--bg))}
+.flags{display:grid;gap:18px}
+.flag{--sev:var(--red);--sev-soft:var(--red-soft);border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px;display:grid;gap:14px;background:var(--bg)}
+.flag.kill{--sev:var(--red);--sev-soft:var(--red-soft)}
+.flag.hurt{--sev:var(--amber);--sev-soft:var(--amber-soft)}
+.flag.quick{--sev:var(--brand-ink);--sev-soft:var(--brand-soft)}
+.flag header{display:flex;gap:14px;align-items:baseline}
+.num{font-family:var(--mono);font-size:13px;color:var(--sev);background:var(--sev-soft);border-radius:6px;padding:2px 8px;flex:none;font-variant-numeric:tabular-nums}
+.flag h3{font-family:var(--display);font-weight:800;font-size:20px;line-height:1.25;margin:0;text-wrap:balance}
+.sev{justify-self:start;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:6px;color:var(--sev);background:var(--sev-soft)}
+.said{font-size:16px;display:grid;gap:8px;align-content:start}
+.row{display:grid;grid-template-columns:152px 1fr;gap:16px}
+.row>.k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;line-height:1.45;text-transform:uppercase;color:var(--faint);padding-top:4px}
+.row>.v{min-width:0}
+.row p{margin:0}
+.row ul{margin:0;padding-left:18px;display:grid;gap:4px}
+q{display:block;quotes:none;font-family:var(--mono);font-size:13.5px;line-height:1.55;background:var(--quote-bg);border-left:3px solid var(--sev);padding:8px 12px;border-radius:0 6px 6px 0;color:var(--ink);overflow-wrap:break-word}
+q+q{margin-top:6px}
+q cite{font-style:normal;color:var(--faint);margin-left:6px}
+.paste{margin-top:10px;background:var(--brand-soft);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:start}
+.paste .loc{grid-column:1/-1;font-family:var(--mono);font-size:12px;color:var(--brand-ink)}
+.paste p{margin:0;font-size:16px}
+.copy{font-family:var(--mono);font-size:12px;border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);background:var(--bg);color:var(--brand-ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+.copy:hover{background:var(--brand-ink);color:var(--bg);border-color:var(--brand-ink)}
+.plain{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.plain li{display:grid;grid-template-columns:14px 1fr;gap:12px}
+.plain li::before{content:"";width:8px;height:8px;border-radius:2px;margin-top:10px;background:var(--amber)}
+.plain.good li::before{background:var(--brand)}
+.plain strong{font-weight:600}
+.cover{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.cover>div{background:var(--surface);border-radius:12px;padding:16px 18px}
+.cover p,.cover ul{margin:6px 0 0;font-size:15.5px;color:var(--muted)}
+.cover ul{padding-left:18px;display:grid;gap:4px}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+@media (max-width:560px){.row{grid-template-columns:1fr;gap:4px}.flag{padding:18px 16px}body{font-size:16px;padding-inline:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mast">
+    <div class="brand"><div class="tile" aria-hidden="true">{{TILE_LETTER}}</div><div class="word">{{WORDMARK}}<span>{{REPORT_LABEL}}</span></div></div>
+    <div class="stamp">Reviewed {{DATE}} · {{DEPTH}} depth</div>
+  </div>
+
+  <div class="hero">
+    <div class="prompt">{{PROMPT}} <b>bs-detector</b> {{FILE_SLUG}} <span class="nw">--{{DEPTH_FLAG}}</span></div>
+    <h1>{{SUBJECT}}</h1>
+    <p class="lede">{{LEDE}}</p>
+    <div class="verdicts">
+      <!-- REPEAT verdict: one pill per audience that decides -->
+      <span class="pill {{VERDICT_CLASS}}"><i></i>{{VERDICT_LABEL}}</span>
+      <!-- /REPEAT verdict -->
+    </div>
+  </div>
+
+  <div class="goal">
+    <div class="eyebrow">{{GOAL_EYEBROW}}</div>
+    <p>{{GOAL}}</p>
+    {{GOAL_CHIP}}
+  </div>
+
+  <section aria-labelledby="t-tally">
+    <h2 id="t-tally">{{TITLE_TALLY}}</h2>
+    <p class="sub">{{TALLY_SUB}}</p>
+    <!-- One span per grade whose count is above 0, in this order, flex set to the count. The aria-label lists every count, zeros included. -->
+    <div class="bar" role="img" aria-label="{{N}} load-bearing claims: {{A}} verified, {{B}} backed, {{C}} sideways source, {{D}} no source, {{E}} contradicted, {{U}} can't know yet, {{X}} couldn't check">
+      <span class="c-ver" style="flex:{{A}}"></span><span class="c-back" style="flex:{{B}}"></span><span class="c-side" style="flex:{{C}}"></span><span class="c-none" style="flex:{{D}}"></span><span class="c-con" style="flex:{{E}}"></span><span class="c-unk" style="flex:{{U}}"></span><span class="c-x" style="flex:{{X}}"></span>
+    </div>
+    <!-- The legend keeps every grade, zeros included. -->
+    <div class="legend">
+      <div><span class="sw c-ver"></span><b>{{A}}</b> verified</div>
+      <div><span class="sw c-back"></span><b>{{B}}</b> backed</div>
+      <div><span class="sw c-side"></span><b>{{C}}</b> sideways source</div>
+      <div><span class="sw c-none"></span><b>{{D}}</b> no source</div>
+      <div><span class="sw c-con"></span><b>{{E}}</b> contradicted</div>
+      <div><span class="sw c-unk"></span><b>{{U}}</b> can't know yet</div>
+      <div><span class="sw c-x"></span><b>{{X}}</b> couldn't check</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-flags">
+    <h2 id="t-flags">{{TITLE_FLAGS}}</h2>
+    <p class="sub">{{SUB_FLAGS}}</p>
+    <div class="flags">
+      <!-- REPEAT flag: max 7, in rank order -->
+      <article class="flag {{SEVERITY_CLASS}}">
+        <span class="sev">{{SEVERITY_LABEL}}</span>
+        <header><span class="num">{{NN}}</span><h3>{{FLAG_TITLE}}</h3></header>
+        <div class="row"><div class="k">{{LABEL_CAUGHT}}</div><div class="v"><q>{{QUOTE}}<cite>{{LOCATION}}</cite></q></div></div>
+        <div class="row"><div class="k">{{LABEL_WHY}}</div><div class="v said">
+          <p>{{GUT_CALL}}</p>
+          <ul><li>{{PROOF}}</li></ul>
+          <p>{{IF_SENT}}</p>
+        </div></div>
+        <div class="row"><div class="k">{{LABEL_FIX}}</div><div class="v said">
+          <p>{{MOVE}}</p>
+          <!-- Keep the paste box only when a line changes. -->
+          <div class="paste"><span class="loc">{{PASTE_LOCATION}} →</span><p>{{REPLACEMENT}}</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+      <!-- /REPEAT flag -->
+    </div>
+  </section>
+
+  <section aria-labelledby="t-also">
+    <h2 id="t-also">{{TITLE_MORE}}</h2>
+    <ul class="plain">
+      <!-- REPEAT note: max 6 -->
+      <li><span><strong>{{NOTE_LEAD}}</strong> {{NOTE_TEXT}}</span></li>
+      <!-- /REPEAT note -->
+    </ul>
+  </section>
+
+  <section aria-labelledby="t-good">
+    <h2 id="t-good">{{TITLE_WORKING}}</h2>
+    <ul class="plain good">
+      <!-- REPEAT good: 2-4 -->
+      <li><span>{{WORKING_ITEM}}</span></li>
+      <!-- /REPEAT good -->
+    </ul>
+  </section>
+
+  <section aria-labelledby="t-cov">
+    <h2 id="t-cov">{{TITLE_COVERAGE}}</h2>
+    <div class="cover">
+      <div><div class="eyebrow">{{LABEL_CHECKED}}</div><ul>
+        <!-- REPEAT checked -->
+        <li>{{CHECKED_ITEM}}</li>
+        <!-- /REPEAT checked -->
+      </ul></div>
+      <div><div class="eyebrow">{{LABEL_COULDNT}}</div><ul>
+        <!-- REPEAT couldnt -->
+        <li>{{COULDNT_ITEM}}</li>
+        <!-- /REPEAT couldnt -->
+      </ul></div>
+    </div>
+  </section>
+
+  <footer><span>{{FOOTER_CREDIT}}</span><span>{{FOOTER_NOTE}}</span></footer>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var p=btn.parentElement.querySelector('p');
+    var reset=function(){setTimeout(function(){btn.textContent='Copy'},1500)};
+    var fallback=function(){var r=document.createRange();r.selectNodeContents(p);var s=window.getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected';reset()};
+    try{navigator.clipboard.writeText(p.textContent).then(function(){btn.textContent='Copied';reset()},fallback)}catch(e){fallback()}
+  });
+});
+</script>
+</body>
+</html>

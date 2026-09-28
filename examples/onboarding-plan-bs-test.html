@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Onboarding Relaunch: Q1 Plan BS Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Outfit:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style id="brand">
+:root{
+  --display:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --body:"Outfit",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --bg:#FFFFFF; --surface:#F7F8FA; --surface-2:#EDEFF3; --line:#E4E6EB;
+  --ink:#14161B; --muted:#4A5568; --faint:#667080;
+  --brand:#5AA96B; --brand-ink:#36764A; --brand-soft:#EAF3EC;
+  --tile:#0F172A; --tile-ink:#5AA96B; --quote-bg:#F7F8FA;
+  --red:#B42318; --red-soft:#FEF3F2; --amber:#B54708; --amber-soft:#FFFAEB;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#0F172A; --surface:#1A2238; --surface-2:#222C45; --line:#2A3855;
+  --ink:#E4E6EB; --muted:#A3ACBA; --faint:#8B94A3;
+  --brand-ink:#7CC48C; --brand-soft:rgba(90,169,107,.14);
+  --tile:#5AA96B; --tile-ink:#0F172A; --quote-bg:#141C30;
+  --red:#F97066; --red-soft:rgba(249,112,102,.12); --amber:#FDB022; --amber-soft:rgba(253,176,34,.12)}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#0F172A; --surface:#1A2238; --surface-2:#222C45; --line:#2A3855;
+  --ink:#E4E6EB; --muted:#A3ACBA; --faint:#8B94A3;
+  --brand-ink:#7CC48C; --brand-soft:rgba(90,169,107,.14);
+  --tile:#5AA96B; --tile-ink:#0F172A; --quote-bg:#141C30;
+  --red:#F97066; --red-soft:rgba(249,112,102,.12); --amber:#FDB022; --amber-soft:rgba(253,176,34,.12)}
+</style>
+<style id="layout">
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;margin:0;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:760px;margin:0 auto}
+a{color:var(--brand-ink)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.tile{width:34px;height:34px;border-radius:7px;background:var(--tile);color:var(--tile-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:19px}
+.word{font-family:var(--display);font-weight:800;letter-spacing:.16em;font-size:14px}
+.word span{color:var(--faint);font-weight:500;letter-spacing:.08em;margin-left:10px}
+.stamp{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+.hero{padding-block:44px 28px;display:grid;gap:14px}
+.prompt{font-family:var(--mono);font-size:13.5px;color:var(--muted);overflow-wrap:break-word}
+.prompt b{color:var(--brand-ink);font-weight:500}
+.nw{white-space:nowrap}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,6vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lede{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+.verdicts{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:14px;padding:7px 14px;border-radius:999px;border:1px solid}
+.pill i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.pill.stop{color:var(--red);background:var(--red-soft);border-color:color-mix(in srgb,var(--red) 30%,transparent)}
+.pill.stop i{background:var(--red)}
+.pill.warn{color:var(--amber);background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 30%,transparent)}
+.pill.warn i{background:var(--amber)}
+.pill.go{color:var(--brand-ink);background:var(--brand-soft);border-color:color-mix(in srgb,var(--brand) 35%,transparent)}
+.pill.go i{background:var(--brand)}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:8px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.goal p{margin:0}
+.chip{justify-self:start;font-family:var(--mono);font-size:12px;color:var(--amber);background:var(--amber-soft);padding:3px 9px;border-radius:6px}
+.chip.ok{color:var(--brand-ink);background:var(--brand-soft)}
+section{margin-top:48px}
+h2{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 18px}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;background:var(--surface-2)}
+.bar span{display:block}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 16px;margin-top:14px;font-size:14.5px}
+.legend div{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.legend b{font-variant-numeric:tabular-nums;color:var(--ink);font-family:var(--display);min-width:1.4em;text-align:right}
+.sw{width:10px;height:10px;border-radius:3px;flex:none}
+.c-ver{background:var(--brand-ink)}.c-back{background:var(--brand)}.c-side{background:color-mix(in srgb,var(--amber) 55%,var(--bg))}.c-none{background:var(--amber)}.c-con{background:var(--red)}.c-unk{background:var(--faint)}.c-x{background:color-mix(in srgb,var(--faint) 45%,var(--bg))}
+.flags{display:grid;gap:18px}
+.flag{--sev:var(--red);--sev-soft:var(--red-soft);border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px;display:grid;gap:14px;background:var(--bg)}
+.flag.kill{--sev:var(--red);--sev-soft:var(--red-soft)}
+.flag.hurt{--sev:var(--amber);--sev-soft:var(--amber-soft)}
+.flag.quick{--sev:var(--brand-ink);--sev-soft:var(--brand-soft)}
+.flag header{display:flex;gap:14px;align-items:baseline}
+.num{font-family:var(--mono);font-size:13px;color:var(--sev);background:var(--sev-soft);border-radius:6px;padding:2px 8px;flex:none;font-variant-numeric:tabular-nums}
+.flag h3{font-family:var(--display);font-weight:800;font-size:20px;line-height:1.25;margin:0;text-wrap:balance}
+.sev{justify-self:start;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:6px;color:var(--sev);background:var(--sev-soft)}
+.said{font-size:16px;display:grid;gap:8px;align-content:start}
+.row{display:grid;grid-template-columns:152px 1fr;gap:16px}
+.row>.k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;line-height:1.45;text-transform:uppercase;color:var(--faint);padding-top:4px}
+.row>.v{min-width:0}
+.row p{margin:0}
+.row ul{margin:0;padding-left:18px;display:grid;gap:4px}
+q{display:block;quotes:none;font-family:var(--mono);font-size:13.5px;line-height:1.55;background:var(--quote-bg);border-left:3px solid var(--sev);padding:8px 12px;border-radius:0 6px 6px 0;color:var(--ink);overflow-wrap:break-word}
+q+q{margin-top:6px}
+q cite{font-style:normal;color:var(--faint);margin-left:6px}
+.paste{margin-top:10px;background:var(--brand-soft);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:start}
+.paste .loc{grid-column:1/-1;font-family:var(--mono);font-size:12px;color:var(--brand-ink)}
+.paste p{margin:0;font-size:16px}
+.copy{font-family:var(--mono);font-size:12px;border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);background:var(--bg);color:var(--brand-ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+.copy:hover{background:var(--brand-ink);color:var(--bg);border-color:var(--brand-ink)}
+.plain{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.plain li{display:grid;grid-template-columns:14px 1fr;gap:12px}
+.plain li::before{content:"";width:8px;height:8px;border-radius:2px;margin-top:10px;background:var(--amber)}
+.plain.good li::before{background:var(--brand)}
+.plain strong{font-weight:600}
+.cover{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.cover>div{background:var(--surface);border-radius:12px;padding:16px 18px}
+.cover p,.cover ul{margin:6px 0 0;font-size:15.5px;color:var(--muted)}
+.cover ul{padding-left:18px;display:grid;gap:4px}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+@media (max-width:560px){.row{grid-template-columns:1fr;gap:4px}.flag{padding:18px 16px}body{font-size:16px;padding-inline:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mast">
+    <div class="brand"><div class="tile" aria-hidden="true">M</div><div class="word">MIKE BAL<span>BS TEST</span></div></div>
+    <div class="stamp">Reviewed 25 Sep 2026 · Full depth</div>
+  </div>
+
+  <div class="hero">
+    <div class="prompt">~/reviews $ <b>bs-detector</b> onboarding-plan.md <span class="nw">--full</span></div>
+    <h1>Onboarding Relaunch: Q1 Plan</h1>
+    <p class="lede">You picked the right problem and showed your math, which most plans don't. I wouldn't send it yet. You're asking leadership for a yes with no price on it, and your 40% target is higher than anything you've hit, including your best cohort ever.</p>
+    <div class="verdicts">
+      <span class="pill stop"><i></i>Don't send it yet</span>
+    </div>
+  </div>
+
+  <div class="goal">
+    <div class="eyebrow">What I took this to be for</div>
+    <p>You want Ledgerly's leadership team to approve the Q1 onboarding relaunch, a five-email sequence plus an in-app checklist, so Growth can start in January. The decision on the table is yes or no on that start. I went full depth because it's going to leadership and the ask rests on several numbers. If it's an early heads-up rather than a request for sign-off, the missing price stops being a deal-breaker and the verdict becomes “fix these first.” The other flags stand.</p>
+    <span class="chip">I assumed this.</span>
+  </div>
+
+  <section aria-labelledby="t-tally">
+    <h2 id="t-tally">What your ask stands on</h2>
+    <p class="sub">Six claims hold up your ask, and none of them are verified. Three rest on numbers that measure something else, one is a forecast stated as fact, and two I couldn't check without your data.</p>
+    <div class="bar" role="img" aria-label="6 load-bearing claims: 0 verified, 0 backed, 3 sideways source, 0 no source, 0 contradicted, 1 can't know yet, 2 couldn't check">
+      <span class="c-side" style="flex:3"></span><span class="c-unk" style="flex:1"></span><span class="c-x" style="flex:2"></span>
+    </div>
+    <div class="legend">
+      <div><span class="sw c-ver"></span><b>0</b> verified</div>
+      <div><span class="sw c-back"></span><b>0</b> backed</div>
+      <div><span class="sw c-side"></span><b>3</b> sideways source</div>
+      <div><span class="sw c-none"></span><b>0</b> no source</div>
+      <div><span class="sw c-con"></span><b>0</b> contradicted</div>
+      <div><span class="sw c-unk"></span><b>1</b> can't know yet</div>
+      <div><span class="sw c-x"></span><b>2</b> couldn't check</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-flags">
+    <h2 id="t-flags">Where I'd push back</h2>
+    <p class="sub">Worst first.</p>
+    <div class="flags">
+      <article class="flag kill">
+        <span class="sev">This will kill it</span>
+        <header><span class="num">01</span><h3>It asks for a yes and never says what it costs</h3></header>
+        <div class="row"><div class="k">What caught my eye</div><div class="v"><q>Approve the relaunch so we can start in January. We'll share final costs once the design work is scoped.<cite>Ask</cite></q></div></div>
+        <div class="row"><div class="k">Why I don't buy it</div><div class="v said">
+          <p>This is a huge red flag. It'll stop this dead in its tracks if you send it out.</p>
+          <ul><li>You're asking leadership to approve spend they can't see. Design, the email build and engineering time on the checklist all cost something.</li><li>The only owner named is “Growth.” Nobody's name is on the checklist, and it needs engineering.</li><li>The upside is priced to the dollar ($365K). The cost side is blank, so nobody can weigh one against the other.</li></ul>
+          <p>The first question in the room will be “what does it cost?” The page answers “later,” and that usually gets you “come back when you know.”</p>
+        </div></div>
+        <div class="row"><div class="k">What I'd do</div><div class="v said">
+          <p>Put a number and a name on it before it goes. If design isn't scoped yet, give a range, or change the ask to approving the scoping work.</p>
+          <div class="paste"><span class="loc">Ask →</span><p>Approve the relaunch so we can start in January. It will cost [$ range] for design and the email build, plus [engineering weeks] of engineering time, owned by [owner]. We'll confirm the final number by [date].</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+      <article class="flag hurt">
+        <span class="sev">This will cost you credibility</span>
+        <header><span class="num">02</span><h3>Your 40% target beats the best cohort you've ever had</h3></header>
+        <div class="row"><div class="k">What caught my eye</div><div class="v"><q>The new sequence will lift first-week activation from 22% to 40% by the end of Q2.<cite>Summary, para 2</cite></q><q>our highest-activating cohort ever (the October 2025 webinar cohort) reached 35% activation.<cite>What we know</cite></q></div></div>
+        <div class="row"><div class="k">Why I don't buy it</div><div class="v said">
+          <p>I get where you're going, but you're reaching too far from where you are, and it isn't grounded in anything you can hit yet.</p>
+          <ul><li>Your best cohort ever reached 35%, and those were webinar attendees who chose to show up. You're promising 40% across every new signup.</li><li>Only 31% open the first email, about 2,790 people a month. If the emails carry the lift, 1,620 more activations means 58% of those openers newly connecting a bank.</li><li>You wrote “will,” but this is a bet. Nothing in the plan says why this sequence beats what you've done before.</li></ul>
+          <p>Someone in the room will call you on this. Once they do, they'll discount every other number on the page.</p>
+        </div></div>
+        <div class="row"><div class="k">What I'd do</div><div class="v said">
+          <p>Keep the ambition, but call 40% a stretch goal, say what it rests on, and give the number you'd call a win.</p>
+          <div class="paste"><span class="loc">Summary, para 2 →</span><p>We're aiming to lift first-week activation from [baseline]% to 40% by the end of Q2. Our best cohort so far reached 35%, so 40% is a stretch goal. We'd count [X]% as a clear win.</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+      <article class="flag hurt">
+        <span class="sev">This will cost you credibility</span>
+        <header><span class="num">03</span><h3>The $365K counts every new activation as a customer paying for a full year</h3></header>
+        <div class="row"><div class="k">What caught my eye</div><div class="v"><q>At our average of $19 per month, that's about $365K in new annual recurring revenue (ARR) per monthly cohort.<cite>Impact</cite></q></div></div>
+        <div class="row"><div class="k">Why I don't buy it</div><div class="v said">
+          <p>I don't buy the $365K, and here's why.</p>
+          <ul><li>1,600 × $19 × 12 is $364,800, so the sum is right. It assumes all 1,600 pay $19 a month and stay the whole year.</li><li>Your summary says activated customers are “3x more likely to still be paying after six months.” So some of them stop paying, and a full year for all 1,600 is too generous.</li><li>The plan never says what share of new signups pay at all. If some are on a trial or a free plan, the number drops again.</li></ul>
+          <p>Anyone who checks revenue for a living will spot this on the first read and cut your number for you.</p>
+        </div></div>
+        <div class="row"><div class="k">What I'd do</div><div class="v said">
+          <p>Run the revenue on the share of activated customers who actually pay and stay, using your own retention data.</p>
+          <div class="paste"><span class="loc">Impact →</span><p>If [X]% of the extra activated customers pay $19 a month and [Y]% are still paying after 12 months, that's about [$ amount] in new ARR per monthly cohort.</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+      <article class="flag hurt">
+        <span class="sev">This will cost you credibility</span>
+        <header><span class="num">04</span><h3>You're treating numbers that move together as proof, and the rollout can't test it</h3></header>
+        <div class="row"><div class="k">What caught my eye</div><div class="v"><q>Connecting a bank account is what keeps customers.<cite>Summary, para 1</cite></q><q>NPS rose from 38 to 47 after we previewed the checklist in the September newsletter.<cite>What we know</cite></q><q>Week 7: launch to 100% of new signups.<cite>The plan, step 3</cite></q></div></div>
+        <div class="row"><div class="k">Why I don't buy it</div><div class="v said">
+          <p>I don't buy that connecting a bank account is what keeps people. The 3x could just mean your most committed customers are the ones who connect.</p>
+          <ul><li>If serious customers are the ones connecting, pushing everyone else to connect won't buy you the same retention.</li><li>NPS asks how likely someone is to <a href="https://www.bain.com/insights/introducing-the-net-promoter-system-loyalty-insights/">recommend the product or company</a>. A rise after a newsletter preview lines up in time. It doesn't show anyone loves the checklist.</li><li>Launching to 100% leaves you nothing to compare against. Activation already moved from 22% to 24% without a relaunch, so you won't know what the relaunch did.</li></ul>
+          <p>Someone will ask how you'll know it worked, and right now the page has no answer.</p>
+        </div></div>
+        <div class="row"><div class="k">What I'd do</div><div class="v said">
+          <p>Say it as a belief you'll test, and hold back a slice of new signups so the test means something. Cut “Customers love the checklist idea” unless you have feedback on the checklist itself.</p>
+          <div class="paste"><span class="loc">Summary, para 1 →</span><p>Customers who connect a bank account in week one are 3x more likely to still be paying after six months. We think getting more people to connect will improve retention, and the relaunch will test that against a [share]% holdout group.</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+      <article class="flag hurt">
+        <span class="sev">This will cost you credibility</span>
+        <header><span class="num">05</span><h3>The doc argues with itself about where you're starting</h3></header>
+        <div class="row"><div class="k">What caught my eye</div><div class="v"><q>only 22% of new signups connect a bank account in their first week<cite>Summary, para 1</cite></q><q>Activation today: 22% (see summary). Activation for the most recent full month was 24%.<cite>What we know</cite></q></div></div>
+        <div class="row"><div class="k">Why I don't buy it</div><div class="v said">
+          <p>Pick one. Right now the page gives two answers to “where are we today?”</p>
+          <ul><li>The 22% line cites the summary as its source, so it's pointing at itself.</li><li>From 24%, getting to 40% is a 16-point lift. That's 1,440 more activations a month and about $328K of ARR per cohort, roughly $37K less than you claim.</li><li>If 24% is the trend, some of your lift was coming anyway.</li></ul>
+          <p>A reader who spots two baselines will assume you picked the one that makes the lift look bigger.</p>
+        </div></div>
+        <div class="row"><div class="k">What I'd do</div><div class="v said">
+          <p>Say which number is the baseline and why, then run the target and the ARR from it.</p>
+          <div class="paste"><span class="loc">What we know →</span><p>Activation today: [baseline]% of new signups connect a bank account in their first week, averaged over [period]. The most recent full month was 24%.</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+      <article class="flag hurt">
+        <span class="sev">This will cost you credibility</span>
+        <header><span class="num">06</span><h3>Half the plan waits on a billing migration with no date</h3></header>
+        <div class="row"><div class="k">What caught my eye</div><div class="v"><q>Weeks 2–6: build the in-app checklist. Engineering will pick this up once the billing migration ships.<cite>The plan, step 2</cite></q></div></div>
+        <div class="row"><div class="k">Why I don't buy it</div><div class="v said">
+          <p>This is the question that sinks the timeline. When does the billing migration ship?</p>
+          <ul><li>The checklist build starts in week 2, so the plan assumes the migration is done by then. Nothing on the page says it will be.</li><li>If it slips, the checklist slips, and the week 7 launch either slips too or goes out with emails only.</li></ul>
+          <p>Leadership probably knows the migration's real status better than this page does. If it's running late, they'll read the whole timeline as wishful.</p>
+        </div></div>
+        <div class="row"><div class="k">What I'd do</div><div class="v said">
+          <p>Give the migration's ship date and say what you'll do if it slips.</p>
+          <div class="paste"><span class="loc">The plan, step 2 →</span><p>Weeks 2–6: build the in-app checklist. This needs the billing migration, due [date]. If it slips, we'll [fallback].</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+      <article class="flag hurt">
+        <span class="sev">This will cost you credibility</span>
+        <header><span class="num">07</span><h3>You open by claiming you're the only app for freelancers, and you're not</h3></header>
+        <div class="row"><div class="k">What caught my eye</div><div class="v"><q>Ledgerly is the only bookkeeping app built for freelancers.<cite>Summary, para 1</cite></q></div></div>
+        <div class="row"><div class="k">Why I don't buy it</div><div class="v said">
+          <p>This is flat wrong, and it's the first line leadership reads.</p>
+          <ul><li>Intuit says <a href="https://quickbooks.intuit.com/solopreneur/">QuickBooks Solopreneur</a> is “designed for self-employed individuals running a one-person business.”</li><li>Xero's page is titled <a href="https://www.xero.com/us/small-businesses/xero-for-self-employed/">“Self-Employed Accounting Software for Freelancers.”</a></li><li>Zapier's <a href="https://zapier.com/blog/accounting-bookkeeping-software-freelance/">roundup of self-employed accounting software</a> lists eight options.</li></ul>
+          <p>Nothing in the ask depends on this line, but anyone can check it in a minute. Once they do, they'll wonder what else you rounded up.</p>
+        </div></div>
+        <div class="row"><div class="k">What I'd do</div><div class="v said">
+          <p>Cut the superlative and say what actually sets you apart.</p>
+          <div class="paste"><span class="loc">Summary, para 1 →</span><p>Ledgerly is a bookkeeping app built for freelancers, and [what sets it apart].</p><button class="copy" type="button">Copy</button></div>
+        </div></div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-also">
+    <h2 id="t-also">A few more things</h2>
+    <ul class="plain">
+      <li><span><strong>“Biggest problem” needs a comparison.</strong> Nothing on the page ranks activation against anything else, like churn or the cost of getting signups. Show the ranking or say “a big problem.”</span></li>
+      <li><span><strong>Say which part does the lifting.</strong> The summary credits “the new sequence” for the 40%, but the plan has two parts. Say what you expect from the emails and what from the checklist, so you know which one to keep.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="t-good">
+    <h2 id="t-good">What's working</h2>
+    <ul class="plain good">
+      <li><span>The decision is right at the top. “Decision needed: Approve the Q1 onboarding relaunch” leaves no doubt what you want.</span></li>
+      <li><span>You show your math. 9,000 × 18% is 1,620, and the ARR sum checks out from your own figures.</span></li>
+      <li><span>One metric with a date on it, first-week bank connection by the end of Q2. Keep this. It's good.</span></li>
+      <li><span>Putting your best cohort ever (35%) on the page is honest. Use it to set the target instead of leaving it there to argue against you.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="t-cov">
+    <h2 id="t-cov">What I checked, and what I couldn't</h2>
+    <div class="cover">
+      <div><div class="eyebrow">Checked</div><ul><li>Every figure against the document's own numbers. I recomputed the 1,600, the $365K, the 40% email math and the 24% baseline version.</li><li>“The only bookkeeping app built for freelancers” against the web on 25 Sep 2026: <a href="https://quickbooks.intuit.com/solopreneur/">QuickBooks Solopreneur</a>, <a href="https://www.xero.com/us/small-businesses/xero-for-self-employed/">Xero for self-employed</a>, <a href="https://zapier.com/blog/accounting-bookkeeping-software-freelance/">Zapier's roundup</a>.</li><li>What NPS measures: <a href="https://www.bain.com/insights/introducing-the-net-promoter-system-loyalty-insights/">Bain</a>.</li></ul></div>
+      <div><div class="eyebrow">Couldn't check</div><ul><li>Your internal numbers: 22%, 24%, 3x retention, 9,000 signups, 31% open rate, the 35% cohort, NPS 38 to 47, the $19 average. Connect product analytics, your email tool, billing and the NPS survey, or paste the reports, and I'll grade them.</li><li>The billing migration's ship date. Connect the engineering tracker or roadmap.</li><li>How I ran it: you were away, so I assumed the goal instead of confirming it. No subagents, so I did every review pass myself, one after another. No page publisher, so this is a local file.</li></ul></div>
+    </div>
+  </section>
+
+  <footer><span>bs-detector · mikebal.com</span><span>Ledger: onboarding-plan-ledger.md</span></footer>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var p=btn.parentElement.querySelector('p');
+    var reset=function(){setTimeout(function(){btn.textContent='Copy'},1500)};
+    var fallback=function(){var r=document.createRange();r.selectNodeContents(p);var s=window.getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected';reset()};
+    try{navigator.clipboard.writeText(p.textContent).then(function(){btn.textContent='Copied';reset()},fallback)}catch(e){fallback()}
+  });
+});
+</script>
+</body>
+</html>

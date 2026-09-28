@@ -1,0 +1,220 @@
+# Severity rubric
+
+Use this to set and justify every finding's severity. Every finding in the ledger gets a level **and** the criterion code it met (for example `hurt · H1`). If you can't name a code, the finding isn't ready to show anyone.
+
+Codes stay in the ledger. The report shows the level in the brand's plain words, never the code.
+
+## 1. Three questions set the level
+
+1. **Is it a defect?** Taste, style you'd do differently, and "I'd structure it another way" are not defects. Drop them.
+2. **Does it touch the ask?** A claim is load-bearing if the decision, the ask, or the reader's next move would change were it false.
+3. **What does the deciding reader do if they find it?** Say no or "come back later" (kill), keep going but trust the rest less (hurt), notice and move on (quick or note).
+
+## 2. The levels
+
+| Level | Plain test | Where it goes | Effect on that audience's verdict |
+|---|---|---|---|
+| `kill` | If the deciding reader finds this, the answer is no or "come back later." | Flag | stop |
+| `hurt` | The answer might still be yes, but every other number now gets discounted. | Flag | warn |
+| `quick` | A careful reader notices. The fix is a line edit or one check, and nothing else depends on it. | Flag if it's in the worst 7 and changes a line, otherwise A few more things | warn |
+| `note` | Real, small, worth a line. | A few more things | none |
+| drop | Taste, a claim the document doesn't make, or silence treated as contradiction. | Nowhere | none |
+
+## 3. Criteria
+
+A finding needs to meet **one** criterion at its level.
+
+### kill
+
+| Code | Criterion |
+|---|---|
+| K1 | A load-bearing claim is **contradicted** (grade E) by a source the audience trusts, or by the document's own figures. |
+| K2 | A load-bearing claim has **no source** (grade D) and it's the justification for the ask. |
+| K3 | **The ask is missing or unpriced** for an audience that decides: no amount, no owner, no date, or no decision named. |
+| K4 | **The math doesn't work** on a load-bearing figure, and the corrected number changes the conclusion. |
+| K5 | **The premise is gone.** The gap, problem or market the document is built on has changed. |
+| K6 | **Wrong room.** It asks for a decision this reader can't make, or one that's already been made. |
+| K7 | **Exposure in public copy.** An unsupported superlative, health, safety, pricing or legal claim a regulator, a competitor or a customer could hold you to. |
+
+### hurt
+
+| Code | Criterion |
+|---|---|
+| H1 | A load-bearing claim rests on a **sideways source** (grade C): a real number that measures something else. |
+| H2 | **Confidence beyond the evidence**: "will" on a forecast, "proven" on a pilot, a sample stated as everyone, correlation stated as cause. |
+| H3 | A **non-load-bearing claim is wrong**, and a reader will spot it. |
+| H4 | An **unproven superlative** ("only", "first", "every competitor", "industry-leading") in internal material. If a source contradicts it, use H3 (or K1 if it's load-bearing). |
+| H5 | The **obvious first question has no answer**: the cost side, a dependency, a risk, or how success is measured. |
+| H6 | **The document argues with itself**: the same figure or fact differs between sections, and the difference matters. |
+| H7 | **Bad news is buried or softened**: "softer than planned" for a 30% miss, or the risk in an appendix. |
+| H8 | **A flattering window or baseline**: a comparison period or peer set picked because it looks good. |
+| H9 | A load-bearing claim has **no source** (grade D), but it isn't the justification for the ask. |
+
+### quick
+
+All three must hold: the fix is a line edit or one check, nothing else depends on it, and a careful reader would notice.
+
+| Code | Criterion |
+|---|---|
+| Q1 | A minor figure, date, name or link is wrong or unsourced. |
+| Q2 | An acronym or term this audience won't know is used without a definition. |
+| Q3 | Units or periods are missing or mixed (monthly vs. annual, gross vs. net), but the conclusion survives. |
+| Q4 | More precision than the data supports ("37.4%" from 40 responses). |
+| Q5 | The ask is there but buried below the first screen or page. |
+| Q6 | Stacked hedges or weasel words that blur what's actually being claimed. |
+
+### note
+
+Anything real that doesn't meet a quick criterion: a typo that changes nothing, an inconsistency in naming, a small structural stumble the blind read hit.
+
+## 4. Moving a level up or down
+
+**Up one level when:**
+
+- the audience is external (investors, board, customers, press) or checks for a living (finance, legal);
+- the claim sits in the headline, exec summary, first slide, or the ask itself;
+- the same pattern shows up three or more times, so it reads as carelessness rather than a slip;
+- a reader could check it in under a minute.
+
+**Down one level when:**
+
+- the document already labels the uncertainty ("early read", "directional", "assumes X");
+- the audience already has the context and won't be misled;
+- the user confirmed it's a working draft meant to invite pushback.
+
+**How adjustments combine:** net the ups and downs, then move at most one level in total.
+
+**Never:**
+
+- reach `kill` by adjustment. A finding is `kill` only when it meets a K criterion. Adjustments can take a `kill` down to `hurt`, never a `hurt` up to `kill`;
+- raise anything on taste;
+- treat a "can't know yet" (U) or "couldn't check" (X) grade as a defect on its own. A load-bearing U stated as fact tops out at `hurt · H2`, and the fix is to present it as a bet;
+- treat a silent source as a contradiction.
+
+## 5. Grade to default level
+
+A starting point, before the adjustments in section 4.
+
+| Grade | Load-bearing | Not load-bearing |
+|---|---|---|
+| A verified | none | none |
+| B backed, small gap | quick or note | none |
+| C sideways source | hurt (H1) | note |
+| D no source | kill (K2) if it justifies the ask, otherwise hurt (H9) | quick (Q1) or note |
+| E contradicted | kill (K1) | hurt (H3) if a reader will spot it, otherwise quick |
+| U can't know yet | hurt (H2) if stated as certain, otherwise none | none |
+| X couldn't check | none. List it under "couldn't check" and name the source to connect. | none |
+
+**D or X?** D means the document gives no source and you can't find one. X means the document names or clearly implies a source (a dashboard, a report, a survey) that you can't reach. An internal figure with a named source you can't open is X, not D.
+
+**Inferences:** a conclusion drawn from a real number, such as cause read into a correlation, is C (the number is real but doesn't show what's claimed). That lands at `hurt · H1` or `H2`, not `kill · K2`.
+
+**Forecasts:** a forecast can't be verified, so it starts at U. But check whether the document's own figures can reach it. If they can't, grade it E: the document contradicts itself.
+
+## 6. Patterns to hunt
+
+What each lane should be scanning for, with the check to run and the usual landing spot.
+
+### Numbers
+
+| Pattern | Looks like | Check | Usually |
+|---|---|---|---|
+| Orphan number | "a 40% lift" with nothing behind it | Trace it to a source or the document's own data | K2 / Q1 |
+| Proxy metric | Email opens cited as proof of activation | Ask what the source actually counts | H1 |
+| Doesn't reconcile | Parts don't sum; percentages of different bases added together | Recompute from the document's own figures | K4 / H6 |
+| Impossible target | The goal needs a conversion rate nothing in the document supports | Work backward to the rate required and compare it to the best one shown | K4 |
+| Base-rate leap | A forecast far above the document's own history | Compare to the highest past result in the document. If the document's own figures can't reach the forecast, grade it E. | H2, or K4 when it's the reason for the ask and E |
+| Annualized spike | One good week times 52 | Check the period behind the run rate | H2 / K4 |
+| Double counting | The same revenue credited to two levers | Sum the levers against the stated total | K4 / H6 |
+| Unit or period drift | Monthly cost against annual benefit | Normalize and recompute | Q3, or K4 if it flips the answer |
+| Precision theater | Decimals on a small sample | Check the sample size | Q4 |
+| Flattering window | Compared to the worst month on record | Look for the default comparison period | H8 |
+
+### Logic
+
+| Pattern | Looks like | Check | Usually |
+|---|---|---|---|
+| Correlation as cause | "Members spend 2x, so membership drives spend" | Ask whether big spenders were the ones who joined | H2 |
+| Sample as everyone | Five interviews become "customers want" | Find the sample size | H2 |
+| Survivorship | Only the customers who stayed were surveyed | Ask who was left out | H2 |
+| No counterfactual | "Revenue rose 12% after launch" | Ask what it would have done anyway | H2 |
+| Impossible sequence | Phase 2 needs an output from Phase 3 | Walk the timeline in order | K4 / H5 |
+
+### Claims about the world
+
+| Pattern | Looks like | Check | Usually |
+|---|---|---|---|
+| Stale premise | "No competitor offers this" | Search for current offers as of today | K5 |
+| Unproven superlative | "The only platform built for…" | Search for counterexamples | H4, or K7 in public copy |
+| Borrowed authority | "Research shows…" with no citation | Find the actual study and what it measured | K2 / H1 |
+
+### The ask and the plan
+
+| Pattern | Looks like | Check | Usually |
+|---|---|---|---|
+| Missing price tag | "We recommend investing in…" with no amount | Find the amount, owner and date | K3 |
+| One-sided ledger | Benefits listed, costs absent | Look for cost, effort, and what gets dropped | H5 |
+| Hidden dependency | Needs a team or system that's committed elsewhere | List what has to be true for the plan to start | H5 |
+| No finish line | No metric or date that says it worked | Look for the success measure | H5 / Q5 |
+
+### Voice
+
+| Pattern | Looks like | Check | Usually |
+|---|---|---|---|
+| Forecast as fact | "This will deliver $2M" | Is the source a plan or a result? | H2 |
+| Softened bad news | "Came in below expectations" for a 30% miss | Find the actual number | H7 |
+| Insider language | Acronyms the reader won't know | Picture the least-briefed reader in the room | Q2 |
+| Hedge pile | "Could potentially help to possibly improve" | Say what's actually claimed | Q6 / note |
+
+## 7. Worked examples
+
+Each example states the grade, the code, and why it isn't one level higher or lower.
+
+### kill
+
+**"The new SMS welcome flow will grow loyalty sign-ups from 15% to 30% of first-time buyers."** (p. 2)
+Page 1 says 20% of first-time buyers opt in to texts, and the best campaign on page 3 converted 40% of the people who got it. If the flow only reaches people who opt in, 30% overall needs about 90% of them to sign up (0.20 × 90% + 0.80 × 15% = 30%). Nothing in the document gets close to 90%.
+Grade E: the document's own figures can't reach its forecast. `kill · K4`. It's the headline number and the reason for the ask. Not merely hurt, because the corrected figure changes the ask.
+
+**"No national retailer offers free in-home consultations."** (exec summary)
+A major competitor launched free in-home consultations this spring, with a dated announcement.
+`kill · K5`. The whole proposal is built on the gap. Not hurt, because the premise itself is gone, not just weakened.
+
+### hurt
+
+**"Customers love the new checkout. NPS is up 12 points."** (slide 3)
+The NPS survey goes to every customer and asks about the brand overall, not about checkout.
+`hurt · H1`. Sideways source on a claim that supports the rollout. Not kill, because the conversion data on slide 5 also supports the rollout and is sound.
+
+**"We're the only scheduling tool built for small clinics."** (internal strategy doc)
+Two direct competitors say the same thing on their homepages.
+`hurt · H4`. Not kill internally, because nothing is decided on it. The same line on the public homepage is `kill · K7`.
+
+### quick
+
+**"CAC: $42"** (p. 1) vs. **"CAC: $44"** (appendix)
+The appendix is the newer pull, and the $2 gap doesn't change the payback conclusion.
+`quick · Q1`. Not H6, because H6 needs a difference that matters. It stays a flag because a finance reader will ask which one is right.
+
+**"Q3 NRR held at 104%."** (store-ops audience)
+This audience doesn't use "NRR".
+`quick · Q2`. Define it in five words on first use.
+
+### note
+
+"As we discussed above" with nothing above it. A heading style that changes halfway through. Neither changes what the reader believes or does.
+
+### drop
+
+- "I'd lead with the customer story." That's taste.
+- "The market study doesn't mention this risk, so it's contradicted." Silence isn't contradiction.
+- "The plan ignores international expansion." The document never claims to cover it, and the goal doesn't include it.
+
+## 8. Calibration before publishing
+
+- **Every flag has a code** in the ledger. No code, no flag.
+- **Inflation check:** would the deciding reader actually say no over this one thing? If you have to argue for it, it's `hurt`.
+- **Deflation check:** if the reader found it and you'd rated it `quick`, would you be embarrassed? Then move it up.
+- **More than two kills?** Check that each would stop the decision on its own. Merge the ones with the same root cause.
+- **Verdict matches the flags:** stop only with at least one kill for that audience; go only with no kill, hurt or quick flags.
+- **An empty flag list on sound work is a real result.** Don't pad it.

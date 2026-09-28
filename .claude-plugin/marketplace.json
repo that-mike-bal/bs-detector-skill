@@ -1,0 +1,15 @@
+{
+  "name": "mikebal",
+  "owner": {
+    "name": "Mike Bal",
+    "url": "https://mikebal.com"
+  },
+  "description": "Skills by Mike Bal.",
+  "plugins": [
+    {
+      "name": "bs-detector",
+      "source": "./",
+      "description": "Pressure-test a doc, deck or plan before it goes out."
+    }
+  ]
+}

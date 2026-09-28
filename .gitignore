@@ -1,0 +1,10 @@
+# bs-detector working files
+review/
+dist/
+
+# Local notes, not for the repo
+lessons.md
+_archive/
+
+# OS
+.DS_Store

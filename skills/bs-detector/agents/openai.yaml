@@ -1,0 +1,6 @@
+# Optional metadata for ChatGPT and Codex. Other clients ignore this file.
+interface:
+  display_name: "BS Detector"
+  short_description: "Pressure-test a doc, deck or plan before it goes out"
+  brand_color: "#5AA96B"
+  default_prompt: "BS test this before I send it."
