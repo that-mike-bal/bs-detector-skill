@@ -125,7 +125,9 @@ scripts/build-zip.sh             builds the upload zip for Claude apps
 
 ## What it does with your document
 
-The skill is instructions and a template. It has no scripts and sends nothing anywhere on its own. What it reads and checks depends on the tools your client gives it: web search for outside claims, and any apps you've connected for internal numbers. It writes its working files to a `review/` folder in your working directory. If that's a git repository, add `review/` to `.gitignore`. A report published as a Claude artifact is private until you share it.
+The skill is instructions and a template. It has no scripts and sends nothing anywhere on its own. What it reads and checks depends on the tools your client gives it: web search for outside claims, and any apps you've connected for internal numbers.
+
+**Your document stays in the review.** When it checks an outside claim, it searches the public fact behind that claim in its own words, never your sentence, and never an unreleased figure, price, vendor, customer or date. Anything it can't check without exposing something private is graded "couldn't check", and it tells you which internal source to connect instead. It writes its working files to a `review/` folder in your working directory. If that's a git repository, add `review/` to `.gitignore`. A report published as a Claude artifact is private until you share it.
 
 ## License and credits
 

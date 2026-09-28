@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 (2026-09-28)
+
+- The document no longer leaves the review. Evidence and breadth lanes search the public fact behind a claim, in their own words, and never the document's own sentence or an unreleased figure, price, vendor, customer or date. A claim that can't be checked without exposing something private is graded "couldn't check", with the internal source to connect named instead. Applies to every lane, including lanes run without subagents.
+
 ## 1.0.0 (2026-09-25)
 
 First public release.

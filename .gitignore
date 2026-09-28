@@ -6,5 +6,8 @@ dist/
 lessons.md
 _archive/
 
+# The org copy's brand and build. Never goes to the public repo.
+_org/
+
 # OS
 .DS_Store

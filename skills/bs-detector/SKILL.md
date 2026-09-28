@@ -5,7 +5,7 @@ license: MIT
 compatibility: Works best with subagents, web search, and a way to publish HTML (for example Claude Artifacts). Without them it runs the review in one pass and writes the report as a local HTML file.
 metadata:
   author: Mike Bal
-  version: "1.0.0"
+  version: "1.0.1"
   homepage: https://mikebal.com
 ---
 
@@ -125,6 +125,7 @@ Every brief must be self-contained. Paste in what the reviewer needs; never poin
 - Never argue against a claim the document doesn't make, and never treat a silent source as contradicting it.
 - Never supply your own numbers. Deriving numbers from the document's own figures is fine.
 - Never report taste as a defect.
+- Search the public fact, not the document. Put the underlying claim into a search in your own words. Never paste a sentence from the document into a search box, and never search a figure, price, vendor, customer or date that isn't already public.
 
 Paste the rubric's levels (section 2) and criteria (section 3) into every brief except the blind one, plus the pattern tables from section 6 that fit the lane: Numbers and Logic for claims; Claims about the world for evidence and breadth; The ask and the plan for audience and breadth; Voice for voice.
 
@@ -247,5 +248,6 @@ Do this once, at the end, and skip it on unattended runs. If the user confirmed 
 - Don't rewrite the document. Rewrite individual claims only.
 - "No source" and "contradicted" are different. Never promote one to the other.
 - Timebox digging: after two failed attempts, grade the claim X (couldn't check) and move on.
+- **The document doesn't leave the review.** Search the public fact behind a claim, in your own words, never the document's own sentence. Don't put an unreleased figure, price, vendor, customer, headcount or date into a search or any outside tool. If a claim can't be checked without exposing something that isn't public yet, grade it X (couldn't check) and name the internal source to connect instead. This holds for every lane, including the ones you run yourself.
 - With nothing connected, the blind, claims, audience and voice lanes still work. Say plainly what couldn't be checked.
 - A published report is private until the user shares it. Say so if they mention sending it to someone.
