@@ -1,7 +1,7 @@
 {
   "name": "bs-detector",
-  "description": "Pressure-test a doc, deck, spec, plan or public copy before it goes out. Confirms the goal, checks the claims the ask depends on, and returns a branded report of what will get you called out, why, and the fix.",
-  "version": "1.0.2",
+  "description": "Pressure-test a doc, deck, spec, plan or public copy before it goes out. Confirms the goal, then hunts what won't survive the audience: claims nobody will believe, assumptions stated as settled fact, blockers that aren't real, and bloat or AI overwriting that buries the point. Returns a branded report of what will get you called out, why, and the fix.",
+  "version": "1.1.0",
   "icon": "./icon.png",
   "author": {
     "name": "Mike Bal",

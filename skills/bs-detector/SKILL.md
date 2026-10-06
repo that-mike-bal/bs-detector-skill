@@ -1,11 +1,11 @@
 ---
 name: bs-detector
-description: Pressure-tests a doc, deck, spec, analysis, plan or public copy before it goes out. Confirms the goal, checks the claims the ask depends on, and returns a report of what will get the author called out, why, and the fix. Use for "BS test this", "pressure test", "red team", "fact-check", "poke holes in", "sanity check", or "is this ready to send?"
+description: Pressure-tests a doc, deck, spec, analysis, plan or public copy before it goes out. Confirms the goal, then hunts what won't survive contact with the audience: claims nobody will believe, assumptions stated as settled fact, blockers that aren't real, and bloat or AI overwriting that buries the point. Returns a report of what will get the author called out, why, and the fix. Use for "BS test this", "pressure test", "red team", "fact-check", "poke holes in", "sanity check", "is this too wordy", or "is this ready to send?"
 license: MIT
 compatibility: Works best with subagents, web search, and a way to publish HTML (for example Claude Artifacts). Without them it runs the review in one pass and writes the report as a local HTML file.
 metadata:
   author: Mike Bal
-  version: "1.0.1"
+  version: "1.1.0"
   homepage: https://mikebal.com
 ---
 
@@ -13,12 +13,13 @@ metadata:
 
 Someone is about to put their name on a piece of work: a doc, deck, spec, analysis, plan, proposal, or public copy. Find what will embarrass them before their audience does, then tell them how to fix it.
 
-Four rules shape everything below:
+Five rules shape everything below:
 
 1. **Confirm the goal before the review.** Wrong goal, wrong grades.
-2. **Every flag answers three questions:** what caught my eye, why I don't buy it, and what I'd do. Nothing else earns space.
-3. **It sounds like a person, not a tool.** The report is written in the first-person voice set by the active brand, talking straight to the author.
-4. **The result is a branded HTML report.** Published as a page when the client can, otherwise written as a local file. Never a markdown dump.
+2. **Sourcing is one axis, not the review.** Plenty of work fails without a single bad citation: claims nobody believes, assumptions presented as settled, blockers that aren't real, and a point buried under words. Chase those as hard as you chase a missing source.
+3. **Every flag answers three questions:** what caught my eye, why I don't buy it, and what I'd do. Nothing else earns space.
+4. **It sounds like a person, not a tool.** The report is written in the first-person voice set by the active brand, talking straight to the author, and it doesn't soften the call.
+5. **The result is a branded HTML report.** Published as a page when the client can, otherwise written as a local file. Never a markdown dump.
 
 In this skill, "the document" is the work under review. "The report" is what you produce.
 
@@ -56,7 +57,9 @@ Check what the session has before Step 1. Say in the report's coverage section w
 **Read the document once, then write blind notes before forming any view of the goal:**
 
 - a two-sentence playback of the point and the ask;
+- **the one-line test:** the point, in one line, written from memory without looking back at the document. If you can't write it, say so. That's a finding, and usually a big one;
 - anything that doesn't make sense, or only makes sense if you already know the backstory;
+- anything you don't believe on its face, before you check a single source;
 - the smell test: what a skeptical reader thinks in the first thirty seconds.
 
 Keep these notes. They feed Step 4, and they're the blind read when there are no subagents.
@@ -87,10 +90,12 @@ Write `review/<name>-ledger.md` in the working folder, where `<name>` is the doc
 
 **Claims.** One row per checkable claim:
 
-| ID | Verbatim quote | Location | Type | Load-bearing | Grade | Checked against |
-|---|---|---|---|---|---|---|
+| ID | Verbatim quote | Location | Type | Load-bearing | Grade | Believable | Checked against |
+|---|---|---|---|---|---|---|---|
 
-Capture facts and figures, attributed claims, cited sources, calculations, unstated assumptions, inferences (correlation stated as cause, a sample stated as everyone), and superlatives ("only", "first", "every competitor").
+Capture facts and figures, attributed claims, cited sources, calculations, unstated assumptions, inferences (correlation stated as cause, a sample stated as everyone), superlatives ("only", "first", "every competitor"), and **asserted constraints** — anything the document says is blocked, required, impossible or not allowed.
+
+**Grade and Believable are two different columns, and they're set independently.** Grade is where it came from (Step 4). Believable is whether a knowledgeable reader buys it at all: believable, a stretch, or doesn't pass. Fill Believable from your own read, with no source and no search. A cited claim can fail it; an uncited claim can pass it easily. The rubric's section 3 has the test.
 
 Mark **load-bearing** strictly: would the conclusion, the ask, or the reader's decision change if this claim were false? Most documents have 3–7. The report's tally counts these only.
 
@@ -107,11 +112,13 @@ Mark **load-bearing** strictly: would the conclusion, the ask, or the reader's d
 
 | Depth | Use when | Lanes | Evidence checked |
 |---|---|---|---|
-| Quick | Short copy, internal, low stakes | Claims and audience, done yourself in one pass on top of your blind notes | The top 1–2 load-bearing claims |
-| Normal (default) | Most documents | Blind first, then claims, audience, voice and evidence | Every load-bearing claim |
-| Full | Any one of: exec, board, investor or public audience; longer than about five pages; the ask rests on several numbers | All six. Split evidence by domain if large. | Every checkable claim |
+| Quick | Short copy, internal, low stakes | Claims, audience and clarity, done yourself in one pass on top of your blind notes | The top 1–2 load-bearing claims |
+| Normal (default) | Most documents | Blind first, then claims, audience, voice, clarity and evidence | Every load-bearing claim |
+| Full | Any one of: exec, board, investor or public audience; longer than about five pages; the ask rests on several numbers | All seven. Split evidence by domain if large. | Every checkable claim |
 
-With subagents, the blind lane is a second cold read by a reader who never saw the goal conversation. Without subagents, run the lanes yourself in this order: claims, audience, voice, evidence, breadth. Your Step 1 notes count as the blind lane. You don't need to write briefs; hold yourself to the brief rules below, and keep each lane's steelman and "what held up" in the ledger's lane notes.
+Clarity runs at every depth. It needs no sources and no web, and it's the lane that catches the work that reads well and says nothing.
+
+With subagents, the blind lane is a second cold read by a reader who never saw the goal conversation. Without subagents, run the lanes yourself in this order: claims, audience, voice, clarity, evidence, breadth. Your Step 1 notes count as the blind lane. You don't need to write briefs; hold yourself to the brief rules below, and keep each lane's steelman and "what held up" in the ledger's lane notes.
 
 ### Put this in every brief
 
@@ -127,16 +134,31 @@ Every brief must be self-contained. Paste in what the reviewer needs; never poin
 - Never report taste as a defect.
 - Search the public fact, not the document. Put the underlying claim into a search in your own words. Never paste a sentence from the document into a search box, and never search a figure, price, vendor, customer or date that isn't already public.
 
-Paste the rubric's levels (section 2) and criteria (section 3) into every brief except the blind one, plus the pattern tables from section 6 that fit the lane: Numbers and Logic for claims; Claims about the world for evidence and breadth; The ask and the plan for audience and breadth; Voice for voice.
+Paste the rubric's levels (section 2), believability (section 3) and criteria (section 4) into every brief except the blind one, plus the pattern tables from section 7 that fit the lane:
+
+| Lane | Pattern tables |
+|---|---|
+| Claims | Numbers, Logic, Belief, Blockers and constraints |
+| Audience | The ask and the plan |
+| Voice | Voice, Belief |
+| Clarity | Clarity and bloat, AI overwriting |
+| Evidence | Claims about the world, Belief |
+| Breadth | Claims about the world, The ask and the plan, Blockers and constraints |
+
+Two rules go in the claims, voice and clarity briefs on top of the above:
+
+- **Don't wait for a source to object.** If you don't believe a claim, say so and say why, even when it's cited and even when you can't disprove it. "No source" and "nobody would buy this" are different findings, and the second one is usually worse.
+- **Cutting is a defect only when the point is harder to find.** Prose you'd have written differently is taste. Drop it.
 
 ### Lanes
 
 | Lane | Gets | Hunts for |
 |---|---|---|
-| **Blind** (first, alone) | The document only. No goal, no sources, no web, memory or connected apps. | Playback of the point and the ask, what doesn't make sense, "only makes sense if you already know…", structure, smell test |
-| **Claims** | Document + goal + ledger. No web. | Unsupported assertions, unstated premises, recomputed arithmetic, contradictions, sequencing, superlatives |
+| **Blind** (first, alone) | The document only. No goal, no sources, no web, memory or connected apps. | The one-line test, playback of the point and the ask, what doesn't make sense, "only makes sense if you already know…", what you don't believe on sight, structure, smell test |
+| **Claims** | Document + goal + ledger. No web. | Unsupported assertions, unstated premises, recomputed arithmetic, contradictions, sequencing, superlatives, the straight-face test on every load-bearing claim, and every asserted blocker or constraint |
 | **Audience** | Document + goal. No web. | The first question, the question that sinks it, where trust breaks, whether the ask is clear |
-| **Voice** | Document + goal. No web. | Confidence vs. support, loaded language, softened bad news, machine cadence |
+| **Voice** | Document + goal. No web. | Confidence vs. support, settled language on open questions, loaded language, softened bad news |
+| **Clarity** | Document + goal. No web. | Whether the point can be said in one line, words that carry nothing, repetition, AI overcomposition, vague quantifiers where a number exists, sentences that need a second pass, the ask buried in prose |
 | **Evidence** | Document + goal + ledger + web and sources | A grade for every load-bearing claim, current as of today, with links |
 | **Breadth** | Document + goal + ledger + web | What's missing and matters: cost side, dependencies, risks, alternatives, counter-evidence |
 
@@ -158,6 +180,10 @@ Paste the rubric's levels (section 2) and criteria (section 3) into every brief 
 
 Silence is never E. D means no source is given or findable. X means the document names or clearly implies a source you can't reach, such as an internal dashboard figure. An inference drawn from a real number (cause read into a correlation) is C. A forecast starts at U, but grade it E if the document's own figures can't reach it. In the report, use the plain words only: verified, backed, sideways source, no source, contradicted, can't know yet, couldn't check.
 
+**Mark believability** for every load-bearing claim, independently of its grade: believable, a stretch, or doesn't pass. This is your own judgment against what you know, not a lookup. Rubric section 3 has the test, and section 6 maps both axes to a starting level.
+
+A claim that doesn't pass is a `kill` on its own, whatever its grade — including grade A. Don't downgrade it to a sourcing complaint because that's easier to defend. Equally, don't inflate a no-source claim nobody would question: if it's believable and unimportant, it's a note.
+
 **Set severity** with `references/severity-rubric.md`. One scale runs through the whole skill: `kill`, `hurt`, `quick`, `note`, or drop. Record the level and its criterion code in the Findings table. No code, no flag.
 
 **Verify every candidate flag before it reaches the user:**
@@ -168,7 +194,7 @@ Silence is never E. D means no source is given or findable. X means the document
 - There are no invented numbers.
 - It's a defect, not a preference.
 
-Merge duplicates and drop anything that fails. One made-up flag makes every real one look suspect. Then run the rubric's calibration checks (section 8).
+Merge duplicates and drop anything that fails. One made-up flag makes every real one look suspect. Then run the rubric's calibration checks (section 9), including the source-bias check: if every flag you kept is a complaint about citations, you ran half the review.
 
 ## Step 5: Write the content
 
@@ -178,11 +204,13 @@ Read the voice section of the active brand file. Its phrases, severity labels an
 
 - **First person, talking to "you".** "I don't buy it," "I'd cut this," "I can't make your numbers work." Never "the document", "the author" or "this analysis".
 - **Verdict before reasons.** Open each "why" with the gut call, then back it up: "I don't see anything behind the 30%. For that to work, 90% of the people who opt in to texts would have to sign up."
+- **Say the hard thing flatly.** When a claim doesn't pass, don't hedge your way to it: "I don't buy it. No one else will either." When the point can't be found: "This isn't clear enough. I read it twice and I still can't tell you what you're asking for." When words are doing nothing: "Three paragraphs to say one thing. Cut it to the one thing." A blunt sentence the author remembers beats a balanced one they skim.
+- **No softening of the call itself.** Cut "might want to consider", "perhaps", "it could be argued". If you're sure, sound sure. If you're not, say which it is once and move on.
 - **Be specific.** Real numbers, names, dates, and the line it's on. "A competitor started giving this away free in April," not "the landscape has shifted."
 - **Say what happens if they ignore it.** "Anyone who checks page 2 will do that math in their head."
 - **Plain words.** If a smart friend outside the industry wouldn't follow a sentence, rewrite it. Define any acronym the audience might not know the first time it appears.
 - **Short sentences.** One idea each. Contractions are fine.
-- **Push back without being a jerk.** Credit what works, and credit where the author is headed: "I get where you're going, but…"
+- **Hard on the work, straight with the person.** Credit what actually works and say where they're headed is right when it is: "I get where you're going, but…" That isn't softening — it's what makes the harsh calls land as earned rather than as a pose. Never mock the author, and never pile on past the point you've made.
 
 **Never use:**
 
@@ -191,7 +219,7 @@ Read the voice section of the active brand file. Its phrases, severity labels an
 - AI tics: "it's not X, it's Y", colon reveals, em-dash asides, rhetorical triplets in prose ("faster, cheaper, better"), closing summaries that repeat the section. A bullet list of three real points is fine;
 - stacked hedges. Say how sure you are once: "I couldn't confirm this" or "This is flat wrong."
 
-Flag titles say the problem the way you'd say it out loud: "You're pitching a gap that closed in April," "It asks for a decision and never says what it costs." No emoji; the design carries the tone.
+Flag titles say the problem the way you'd say it out loud: "You're pitching a gap that closed in April," "It asks for a decision and never says what it costs," "Nobody is going to believe a 60% drop in quarter one," "Nine pages and I still can't tell you what you want," "You're blocked on something that isn't blocking you." No emoji; the design carries the tone.
 
 **Before building, read every flag in your head in the brand's voice.** If a line sounds like a report instead of a person talking, rewrite it.
 
@@ -245,8 +273,12 @@ Do this once, at the end, and skip it on unattended runs. If the user confirmed 
 
 ## Guardrails
 
-- Don't rewrite the document. Rewrite individual claims only.
+- Don't rewrite the document. Rewrite individual claims only. On a bloat flag, show the cut — the same point in a fraction of the words — rather than rewriting the section for them.
 - "No source" and "contradicted" are different. Never promote one to the other.
+- **Don't let sourcing crowd out the rest.** A review whose flags are all citation complaints has missed belief, blockers and clarity. Check your flag list before you build.
+- **Blunt is not cruel.** Go straight at the work and never at the person. "I don't buy it" is the register; sarcasm, name-calling and piling on after the point has landed are not.
+- **Bloat and taste are different.** Flag words only when the point is harder to find because of them. A long sentence you'd have written shorter is taste, and taste gets dropped.
+- **AI overwriting is a shape, not an accusation.** Flag the prose — generic lines, filler transitions, scaffolding with nothing in it. Never claim, guess at, or mention who or what wrote the document.
 - Timebox digging: after two failed attempts, grade the claim X (couldn't check) and move on.
 - **The document doesn't leave the review.** Search the public fact behind a claim, in your own words, never the document's own sentence. Don't put an unreleased figure, price, vendor, customer, headcount or date into a search or any outside tool. If a claim can't be checked without exposing something that isn't public yet, grade it X (couldn't check) and name the internal source to connect instead. This holds for every lane, including the ones you run yourself.
 - With nothing connected, the blind, claims, audience and voice lanes still work. Say plainly what couldn't be checked.

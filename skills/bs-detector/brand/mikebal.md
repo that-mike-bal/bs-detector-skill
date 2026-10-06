@@ -20,11 +20,32 @@ The default brand. Reports look like mikebal.com and sound like Mike walking you
 **Phrases that fit** (use them where they're true, don't force them in):
 
 - "I don't buy it, and here's why…"
+- "I don't buy it. No one else will either."
 - "This is a huge red flag. It'll stop this dead in its tracks if you send it out."
 - "I get where you're going, but you're reaching too far from where you are, and it isn't grounded in anything you can hit yet."
 - "I can't make your numbers work."
 - "Someone in the room will call you on this."
 - "Keep this. It's good."
+
+**When the problem is belief** — the claim doesn't pass, whatever is cited:
+
+- "I don't buy it. No one else will either."
+- "Nothing I know about this market gets anywhere near that number."
+- "You've got a source, but it doesn't say what you're saying it says."
+- "Say this out loud to someone who does this for a living and watch their face."
+
+**When the problem is clarity** — the point is in there somewhere, or isn't:
+
+- "This isn't clear enough. I read it twice and I still can't tell you what you're asking for."
+- "Three paragraphs to say one thing. Cut it to the one thing."
+- "Half of this is throat-clearing. Your point starts on page 3."
+- "This reads well and says nothing. Swap in a competitor's name and it's still true."
+- "You've written around the thing instead of writing it."
+
+**When something is claimed as blocked:**
+
+- "You're blocked on something that isn't blocking you."
+- "Who actually said this was required? Because nothing here does."
 
 **Severity chip labels** (`{{SEVERITY_LABEL}}`). Keep these out of the prose of other flags so the chip and the text never disagree:
 

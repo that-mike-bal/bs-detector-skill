@@ -13,9 +13,15 @@ See the full example: [the input document](examples/onboarding-plan.md), [the re
 1. **Confirms the goal first.** It tells you what it thinks the document is for, who reads it, and what decision it drives, then waits for you to correct it. Wrong goal, wrong grades.
 2. **Reads it cold.** A blind read, with no context, catches what only makes sense if you already know the backstory.
 3. **Grades the claims your ask stands on:** verified, backed, sideways source (a real number that measures something else), no source, contradicted, can't know yet, or couldn't check. It recomputes your math from your own figures.
-4. **Sets severity with a rubric**, not a vibe. Every flag maps to a written criterion. See [the severity rubric](skills/bs-detector/references/severity-rubric.md).
-5. **Verifies before it complains.** It checks every flag for a verbatim quote, a real contradiction, and no invented numbers.
-6. **Hands you a report** with a verdict per audience and up to 7 flags. Each flag has three parts, *What caught my eye / Why I don't buy it / What I'd do*, plus replacement sentences you can copy.
+4. **Asks whether anyone will actually believe it**, separately from where it came from. A cited claim can still fail the straight-face test, and that's a bigger problem than a missing footnote. If it doesn't hold up, you get told: *"I don't buy it. No one else will either."*
+5. **Catches what you've stated as settled** when it's a judgment call, an estimate or still open, and the assumptions carrying your argument that you never actually examined.
+6. **Checks your blockers are real.** Things called blocked, required, impossible or not allowed, where nothing shows that they are, and the plan bends around them anyway.
+7. **Cuts the bloat.** Whether your point can be said in one line, how many words aren't doing any work, and AI overwriting: prose that's been composed rather than thought through, reads beautifully and says nothing. Clarity gets checked on every run, at every depth.
+8. **Sets severity with a rubric**, not a vibe. Every flag maps to a written criterion. See [the severity rubric](skills/bs-detector/references/severity-rubric.md).
+9. **Verifies before it complains.** It checks every flag for a verbatim quote, a real contradiction, and no invented numbers.
+10. **Hands you a report** with a verdict per audience and up to 7 flags. Each flag has three parts, *What caught my eye / Why I don't buy it / What I'd do*, plus replacement sentences you can copy.
+
+It's blunt about the call and fair about the work: it credits what's working, it won't flag prose just because it would have written it differently, and it never guesses at who or what wrote your document.
 
 ## Install
 
@@ -48,7 +54,7 @@ Copy the `skills/bs-detector` folder into your client's skills directory. It use
 
 ## Use it
 
-Ask for it in plain words: "BS test this", "pressure test this deck", "red team my plan", "fact-check this", "poke holes in this", or "is this ready to send?"
+Ask for it in plain words: "BS test this", "pressure test this deck", "red team my plan", "fact-check this", "poke holes in this", "is this too wordy", "does this actually say anything", or "is this ready to send?"
 
 It picks a depth and tells you which: **quick** for short, low-stakes copy; **normal** for most documents; **full** for anything going to execs, a board, investors or the public.
 
@@ -56,7 +62,7 @@ It picks a depth and tells you which: **quick** for short, low-stakes copy; **no
 
 | With | It will | Without it, it will |
 |---|---|---|
-| Subagents | Run a blind read first, then up to five review lanes in parallel, each isolated | Run the lanes itself, in order |
+| Subagents | Run a blind read first, then up to six review lanes in parallel, each isolated | Run the lanes itself, in order |
 | Web search | Check outside claims against current sources | Mark those claims "couldn't check", never "verified" |
 | Connected apps (drive, docs, analytics) | Check your internal numbers against the source | Ask you for the source, or mark them "couldn't check" |
 | A page publisher (Claude Artifacts) | Publish the report as a private page you can share | Write a standalone HTML file and give you the path |

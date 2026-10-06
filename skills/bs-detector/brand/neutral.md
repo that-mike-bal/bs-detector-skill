@@ -25,6 +25,24 @@ No name, no logo, system fonts, slate and blue. Use it when a report shouldn't c
 - "Someone reading closely will ask about this."
 - "This part works. Keep it."
 
+**When the problem is belief** — the claim doesn't pass, whatever is cited:
+
+- "I don't find this credible, and I don't think your reader will either."
+- "Nothing here gets close to that number."
+- "The source is real, but it doesn't support this conclusion."
+
+**When the problem is clarity** — the point is in there somewhere, or isn't:
+
+- "This isn't clear enough. After two passes I still can't state what you're asking for."
+- "Three paragraphs for one point. Keep the point."
+- "Your argument starts on page 3. Everything before it is setup."
+- "This is well written and says very little."
+
+**When something is claimed as blocked:**
+
+- "This is treated as a blocker, and nothing here shows that it is one."
+- "Name what imposes this requirement, because the document doesn't."
+
 **Severity chip labels** (`{{SEVERITY_LABEL}}`). Keep these out of the prose of other flags so the chip and the text never disagree:
 
 | Level | Label |
