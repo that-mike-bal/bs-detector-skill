@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 (2026-10-05)
+
+- Plugin icon for the directory listing: the mikebal.com laser gun, rendered from the theme's `assets/svg/laser-gun.svg` onto the brand's night/green tile at 1024x1024. Set as `icon` in `plugin.json`.
+
 ## 1.0.1 (2026-09-28)
 
 - The document no longer leaves the review. Evidence and breadth lanes search the public fact behind a claim, in their own words, and never the document's own sentence or an unreleased figure, price, vendor, customer or date. A claim that can't be checked without exposing something private is graded "couldn't check", with the internal source to connect named instead. Applies to every lane, including lanes run without subagents.
