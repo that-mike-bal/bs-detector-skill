@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proposal: Consolidating Our Customer Feedback Tools BS Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Outfit:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style id="brand">
+:root{
+  --display:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --body:"Outfit",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --bg:#FFFFFF; --surface:#F7F8FA; --surface-2:#EDEFF3; --line:#E4E6EB;
+  --ink:#14161B; --muted:#4A5568; --faint:#667080;
+  --brand:#5AA96B; --brand-ink:#36764A; --brand-soft:#EAF3EC;
+  --tile:#0F172A; --tile-ink:#5AA96B; --quote-bg:#F7F8FA;
+  --red:#B42318; --red-soft:#FEF3F2; --amber:#B54708; --amber-soft:#FFFAEB;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#0F172A; --surface:#1A2238; --surface-2:#222C45; --line:#2A3855;
+  --ink:#E4E6EB; --muted:#A3ACBA; --faint:#8B94A3;
+  --brand-ink:#7CC48C; --brand-soft:rgba(90,169,107,.14);
+  --tile:#5AA96B; --tile-ink:#0F172A; --quote-bg:#141C30;
+  --red:#F97066; --red-soft:rgba(249,112,102,.12); --amber:#FDB022; --amber-soft:rgba(253,176,34,.12)}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#0F172A; --surface:#1A2238; --surface-2:#222C45; --line:#2A3855;
+  --ink:#E4E6EB; --muted:#A3ACBA; --faint:#8B94A3;
+  --brand-ink:#7CC48C; --brand-soft:rgba(90,169,107,.14);
+  --tile:#5AA96B; --tile-ink:#0F172A; --quote-bg:#141C30;
+  --red:#F97066; --red-soft:rgba(249,112,102,.12); --amber:#FDB022; --amber-soft:rgba(253,176,34,.12)}
+</style>
+<style id="layout">
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;margin:0;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:720px;margin:0 auto}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.tile{width:34px;height:34px;border-radius:7px;background:var(--tile);color:var(--tile-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:19px}
+.word{font-family:var(--display);font-weight:800;letter-spacing:.16em;font-size:14px}
+.word span{color:var(--faint);font-weight:500;letter-spacing:.08em;margin-left:10px}
+.stamp{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+.hero{padding-block:40px 24px;display:grid;gap:12px}
+.prompt{font-family:var(--mono);font-size:13.5px;color:var(--muted);overflow-wrap:break-word}
+.prompt b{color:var(--brand-ink);font-weight:500}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,44px);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.opener,.read{margin:0;color:var(--muted)}
+.read{font-size:15px}
+.pill{justify-self:start;display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:15px;padding:7px 14px;border-radius:999px;border:1px solid}
+.pill i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.pill.stop{color:var(--red);background:var(--red-soft);border-color:color-mix(in srgb,var(--red) 30%,transparent)}
+.pill.stop i{background:var(--red)}
+.pill.warn{color:var(--amber);background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 30%,transparent)}
+.pill.warn i{background:var(--amber)}
+.pill.go{color:var(--brand-ink);background:var(--brand-soft);border-color:color-mix(in srgb,var(--brand) 35%,transparent)}
+.pill.go i{background:var(--brand)}
+.playback{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 20px;margin:0}
+.playback div{display:grid;grid-template-columns:150px 1fr;gap:16px;padding-block:12px}
+.playback div+div{border-top:1px solid var(--line)}
+.playback dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;line-height:1.45;text-transform:uppercase;color:var(--faint);padding-top:4px}
+.playback dd{margin:0;min-width:0}
+.points{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:16px;counter-reset:point}
+.point{--lvl:var(--red);--lvl-soft:var(--red-soft);counter-increment:point;border:1px solid var(--line);border-left:4px solid var(--lvl);border-radius:12px;padding:18px 20px;display:grid;gap:10px}
+.point.costs{--lvl:var(--amber);--lvl-soft:var(--amber-soft)}
+.point.slows{--lvl:var(--brand-ink);--lvl-soft:var(--brand-soft)}
+.point header{display:flex;gap:12px;align-items:baseline}
+.point header::before{content:counter(point,decimal-leading-zero);font-family:var(--mono);font-size:13px;color:var(--lvl);background:var(--lvl-soft);border-radius:6px;padding:2px 8px;flex:none}
+.point h2{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.3;margin:0;text-wrap:balance}
+.lvl{justify-self:start;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:6px;color:var(--lvl);background:var(--lvl-soft)}
+.point p{margin:0}
+q{display:block;quotes:none;font-family:var(--mono);font-size:13.5px;line-height:1.55;background:var(--quote-bg);border-left:3px solid var(--lvl);padding:8px 12px;border-radius:0 6px 6px 0;overflow-wrap:break-word}
+q cite{font-style:normal;color:var(--faint);margin-left:6px}
+.first{margin-top:28px;background:var(--brand-soft);border-radius:12px;padding:16px 20px;display:grid;gap:4px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand-ink)}
+.first p{margin:0;font-weight:600}
+.context{margin:24px 0 0;font-size:15px;color:var(--muted)}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+@media (max-width:560px){.playback div{grid-template-columns:1fr;gap:2px}.point{padding:16px}body{font-size:16px;padding-inline:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mast">
+    <div class="brand"><div class="tile" aria-hidden="true">M</div><div class="word">MIKE BAL<span>BS TEST</span></div></div>
+    <div class="stamp">Read 23 Oct 2026</div>
+  </div>
+
+  <div class="hero">
+    <div class="prompt">~/reviews $ <b>bs-detector</b> feedback-tools-proposal.md</div>
+    <h1>Proposal: Consolidating Our Customer Feedback Tools</h1>
+    <span class="pill warn"><i></i>Fix these first</span>
+  </div>
+
+  <dl class="playback">
+    <div><dt>What I took this to say</dt><dd>Feedback sits in four tools, so buy a dedicated feedback platform for about $24,000 a year starting in Q3. You only find that out in the last line.</dd></div>
+    <div><dt>What it should say</dt><dd>Fund a dedicated feedback platform (option 3) at about $24,000 a year, starting in Q3, so survey, support, sales and product board feedback land in one place and teams stop missing requests, saving product managers [hours a quarter, with the working].</dd></div>
+    <div><dt>Length</dt><dd>516 words, about 1 page, 2.2 minutes to read. This job needs about 1 page.</dd></div>
+  </dl>
+
+  <ol class="points">
+    <li class="point costs">
+      <span class="lvl">This costs you trust</span>
+      <header><h2>Your ask is the last sentence.</h2></header>
+      <q>We recommend adopting a dedicated feedback platform (option 3) at about $24,000 a year, starting in Q3.<cite>Conclusion, last line</cite></q>
+      <p>Leadership asked for a recommendation, and they have to read every other section before they get it. Make this your opening line.</p>
+    </li>
+    <li class="point costs">
+      <span class="lvl">This costs you trust</span>
+      <header><h2>I don't buy the 40%, and nothing in the doc backs it up.</h2></header>
+      <q>We estimate consolidation will save the product team 40% of the time they currently spend on research.<cite>The opportunity</cite></q>
+      <p>It's the only benefit with a number on it, and it has no baseline and no working. Research is more than pulling feedback out of four systems, so someone in the room will ask where it came from. Show the hours spent pulling feedback today and how much of that the platform removes, or cut the number.</p>
+    </li>
+    <li class="point costs">
+      <span class="lvl">This costs you trust</span>
+      <header><h2>You're blocked on something that isn't blocking you.</h2></header>
+      <q>We cannot begin the rollout until IT finishes the single sign-on migration, because all new tools are required to use SSO.<cite>Dependencies</cite></q>
+      <p>You don't name a policy or an owner, and picking a vendor and signing a contract don't need SSO. Say who requires it, and start vendor selection now so that only connecting the sources waits for IT.</p>
+    </li>
+    <li class="point costs">
+      <span class="lvl">This costs you trust</span>
+      <header><h2>This reads well and says nothing.</h2></header>
+      <q>In today's rapidly evolving customer landscape, understanding the voice of the customer has never been more important.<cite>Introduction</cite></q>
+      <p>The Introduction, the first paragraph of The opportunity and the first paragraph of the Conclusion would still be true with any company's name swapped in. Cut them. Your Current state bullets, with owners and volumes, already make the case. Keep those. They're good.</p>
+    </li>
+    <li class="point costs">
+      <span class="lvl">This costs you trust</span>
+      <header><h2>You hand the brief back to the people who wrote it.</h2></header>
+      <q>Leadership asked for a recommendation on consolidation, the expected benefits, the cost, and a timeline.<cite>Background and purpose of this document</cite></q>
+      <p>Then the next sentence says you'll provide those things. Cut the section. The last paragraph of Current state also says "four" four times. Keep only the cost: "teams often miss requests that appear in a tool they don't check."</p>
+    </li>
+  </ol>
+
+  <div class="first">
+    <div class="eyebrow">Fix first</div>
+    <p>Put the recommendation and the $24,000 in the first line, then show the working behind the 40% or cut it.</p>
+  </div>
+
+  <p class="context">No org context available, so I couldn't check this against what your team knows.</p>
+
+  <footer><span>bs-detector · mikebal.com</span><span>23 Oct 2026</span></footer>
+</div>
+</body>
+</html>

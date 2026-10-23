@@ -9,7 +9,7 @@
     {
       "name": "bs-detector",
       "source": "./",
-      "description": "Pressure-test a doc, deck or plan before it goes out: what nobody will believe, what you've overstated, and what's buried under too many words."
+      "description": "Read your doc the way its audience will, and get a short, blunt readout before you send it."
     }
   ]
 }
