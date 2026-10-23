@@ -1,0 +1,62 @@
+# Phrases that carry no meaning in a deliverable. One per line, lowercase.
+# measure.py counts them; the slop check decides whether they matter.
+# Add one when you catch it in the wild. Keep phrases specific enough
+# that a real sentence rarely needs them.
+
+# Throat-clearing
+it's worth noting
+it is worth noting
+it's important to note
+it is important to note
+it should be noted
+needless to say
+it goes without saying
+as previously mentioned
+as mentioned above
+let's dive in
+dive into
+delve into
+delve
+in conclusion
+to summarize
+
+# Scene-setting with nothing behind it
+in today's landscape
+in today's fast-paced
+ever-evolving
+ever-changing
+rapidly evolving
+navigate the complexities
+at the end of the day
+
+# Confident and empty
+best-in-class
+world-class
+cutting-edge
+game-changer
+game-changing
+paradigm shift
+move the needle
+drive meaningful
+meaningful impact
+unlock the power
+harness the power
+the power of
+plays a crucial role
+plays a pivotal role
+a testament to
+rich tapestry
+seamless
+seamlessly
+robust
+holistic
+synergy
+key stakeholders
+empower
+leverage
+
+# Padding
+in order to
+a wide range of
+a wide variety of
+going forward
