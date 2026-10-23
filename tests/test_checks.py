@@ -85,6 +85,17 @@ class CheckLibrary(unittest.TestCase):
         errors = check_errors(CHECKS / "_template.md")
         self.assertEqual(errors, [], "\n" + "\n".join(errors))
 
+    def test_every_check_has_an_eval_case(self):
+        evals = ROOT / "evals" / "checks"
+        missing = [
+            p.stem for p in check_files()
+            if not (evals / p.stem / "prompt.md").exists() or not list((evals / p.stem / "graders").glob("*.md"))
+        ]
+        self.assertEqual(
+            missing, [],
+            "add evals/checks/<name>/prompt.md and graders/ for: " + ", ".join(missing),
+        )
+
 
 class Validator(unittest.TestCase):
     """The validator itself has to catch broken checks, or the tests above prove nothing."""

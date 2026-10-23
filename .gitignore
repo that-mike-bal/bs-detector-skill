@@ -11,3 +11,6 @@ _org/
 
 # OS
 .DS_Store
+
+# Eval run output
+evals/results/
