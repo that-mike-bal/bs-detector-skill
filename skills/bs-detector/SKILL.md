@@ -111,7 +111,10 @@ Checked against: <what you consulted>   or   No org context available.
 ```
 
 - **Verdict:** any **stops it** point means "don't send it yet". Otherwise, any point means "fix these first". No points means "send it".
-- **What it should say:** use only figures and specifics found in the doc. If the recommendation is buried on page 40, lift it. If there's no point to lift, the first numbered point says so.
+- **Levels stay off the chat readout.** They set the order and the verdict. Don't print "stops it" or the brand's level labels in the points. The page shows them.
+- **What it should say** is one sentence, two at most. Use only figures and specifics found in the doc. If the recommendation is buried on page 40, lift it. If the doc never decides, never decide for it, not even partly. Put the decision in brackets ("Fund [the initiative you'd pick] because [reason]"), and make the first numbered point say the doc has no point.
+- **The length line is facts only:** the measured length and what the job needs. Any argument about it belongs in a point.
+- **The context line is one or the other.** Either "Checked against" with what you consulted, or the no-context line on its own.
 - **Reviewer seat:** open with `To <author>, re: <doc>` and speak to the author in the same voice.
 - **Your own read:** state your read of purpose, audience and seat in one line above the verdict, only when you inferred it or assumed it.
 - **Length:** the whole readout fits on one screen. If yours wouldn't pass its own length check, cut it.

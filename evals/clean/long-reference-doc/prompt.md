@@ -23,7 +23,7 @@ Every API request counts against your workspace's rate limit. Limits protect the
 | Business | 3,000 | 50 | 25 |
 | Enterprise | Custom | Custom | Custom |
 
-The per-minute limit is a rolling 60-second window. The burst limit applies to any single second.
+The per-minute limit is a rolling 60-second window: each request counts for 60 seconds after it's made. The burst limit applies to any single second. Requests rejected with a 429 don't count.
 
 ## Response headers
 
@@ -31,29 +31,29 @@ Every response includes these headers:
 
 - `X-RateLimit-Limit`: your per-minute limit.
 - `X-RateLimit-Remaining`: requests left in the current window.
-- `X-RateLimit-Reset`: seconds until the window resets.
+- `X-RateLimit-Reset`: seconds until your oldest counted request expires and frees capacity.
 
 Read `X-RateLimit-Remaining` before batching work, and slow down as it approaches zero.
 
 ## When you hit a limit
 
-Requests over the limit return `429 Too Many Requests` with a `Retry-After` header giving the number of seconds to wait. The request was not processed, so it's safe to retry after that wait.
+Requests over any limit return `429 Too Many Requests` with a `Retry-After` header giving the number of seconds to wait, and a `limit` field naming which limit you hit: `per_minute`, `burst`, `concurrency` or the endpoint name. The request was not processed, so it's safe to retry after that wait.
 
 ```json
 {
   "error": "rate_limited",
   "message": "Rate limit exceeded. Retry after 12 seconds.",
+  "limit": "per_minute",
   "retry_after": 12
 }
 ```
 
 ## Retrying safely
 
-1. Wait at least the number of seconds in `Retry-After`.
-2. Retry with exponential backoff and jitter: wait 1, 2, 4 and then 8 seconds, adding a random 0 to 1 second each time.
-3. Stop after five attempts and surface the error to your user.
+1. Wait for the longer of `Retry-After` and your backoff step. Backoff steps are 1, 2, 4 and then 8 seconds, plus a random 0 to 1 second each time. With the example above, wait 12 seconds first.
+2. Stop after five attempts and surface the error to your user.
 
-Don't retry in a tight loop. Repeated requests during a limit don't reset the window and can extend it.
+Don't retry in a tight loop: a 429 means the work wasn't done, and immediate retries only add more 429s.
 
 ## Endpoints with their own limits
 
@@ -62,6 +62,8 @@ Some endpoints have lower limits because they do more work per request:
 - `POST /exports`: 10 per hour per workspace.
 - `POST /imports`: 5 per hour per workspace.
 - `GET /search`: 120 per minute, counted separately from your plan limit.
+
+Exports and imports also count toward your plan's per-minute limit.
 
 ## Webhooks
 

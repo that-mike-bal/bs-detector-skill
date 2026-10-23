@@ -61,4 +61,6 @@ These are checked by hand for now: org context from memory or connected tools, t
 
 ## Latest scores
 
-Not yet run.
+Not yet run through `claude plugin eval`, so there's no scored run and no comparison against plain Claude yet.
+
+As a first pass, each case was given once to a fresh agent with only `SKILL.md` and the user's message, then checked against its PASS and FAIL conditions by hand. 14 of 15 passed. `no-point` failed because its "what it should say" line picked a winner the doc never chose. `SKILL.md` was tightened so the skill never decides for a doc that doesn't. After that, `no-point`, `buried-point`, `support` and the README example were run again, and all of them passed. The first pass also showed the original `long-reference-doc` fixture had real contradictions in its retry rules, which the skill caught. The fixture was fixed.
