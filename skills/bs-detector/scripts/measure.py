@@ -42,10 +42,13 @@ STOPWORDS = frozenset(
 ASK_MARKERS = re.compile(
     r"\b(?:we|i)\s+(?:recommend|propose|suggest|request)\b"
     r"|\bour\s+recommendation\b"
+    r"|\b(?:the\s+)?ask\s*:"
+    r"|\brecommendation\s*:"
     r"|\bthe\s+ask\b"
+    r"|\bdecision\s+needed\b"
     r"|\bwe\s+(?:are\s+asking|need\s+(?:you|your|approval|a\s+decision))\b"
-    r"|\bapprove\b"
-    r"|\bwe\s+should\b",
+    r"|\bplease\s+approve\b"
+    r"|\bwe\s+should\b(?!\s+not\b)",
     re.IGNORECASE,
 )
 
@@ -54,8 +57,11 @@ FENCE = re.compile(r"^\s{0,3}(```|~~~)")
 HEADING = re.compile(r"^\s{0,3}#{1,6}\s+(.*)$")
 LIST_ITEM = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s+")
 RULE = re.compile(r"^\s{0,3}(?:[-*_]\s*){3,}$")
-LINK = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
-TAG = re.compile(r"<[^>]+>")
+TABLE_SEPARATOR = re.compile(r"^\s*\|?(?:\s*:?-{2,}:?\s*\|)+\s*:?-{0,}:?\s*$")
+FRONTMATTER_LINE = re.compile(r"^(?:[\w-]+\s*:|\s+|-\s)")
+# Bounded so a long line of unmatched [ or < can't make the scan quadratic.
+LINK = re.compile(r"!?\[([^\]\n]{0,300})\]\([^)\n]{0,500}\)")
+TAG = re.compile(r"<[^<>\n]{1,200}>")
 SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
 
 
@@ -68,15 +74,47 @@ def _clean(line: str) -> str:
     return line
 
 
+def _skipped_lines(lines):
+    """Line numbers to ignore: YAML frontmatter, and closed code fences with their contents.
+
+    An unclosed fence drops only its opening line, so a stray ``` can't swallow the rest of the doc.
+    """
+    skip = set()
+    start = 0
+    if lines and lines[0].strip() == "---":
+        for j in range(1, min(len(lines), 60)):
+            if lines[j].strip() in ("---", "..."):
+                if all(not l.strip() or FRONTMATTER_LINE.match(l) for l in lines[1:j]):
+                    skip.update(range(0, j + 1))
+                    start = j + 1
+                break
+    open_at = None
+    for i in range(start, len(lines)):
+        if FENCE.match(lines[i]):
+            if open_at is None:
+                open_at = i
+            else:
+                skip.update(range(open_at, i + 1))
+                open_at = None
+    if open_at is not None:
+        skip.add(open_at)
+    return skip
+
+
 def _segments(text: str):
     """Yield ("heading" | "block", text) in document order, with markdown syntax removed."""
-    in_fence = False
+    lines = text.splitlines()
+    skip = _skipped_lines(lines)
     block = []
-    for raw in text.splitlines():
-        if FENCE.match(raw):
-            in_fence = not in_fence
+    for index, raw in enumerate(lines):
+        if index in skip:
             continue
-        if in_fence:
+        if raw.lstrip().startswith("|"):
+            if block:
+                yield "block", " ".join(block)
+                block = []
+            if not TABLE_SEPARATOR.match(raw):
+                yield "block", _clean(raw)
             continue
         if not raw.strip() or RULE.match(raw):
             if block:
@@ -161,13 +199,13 @@ def _repeated_phrases(sentence_tokens):
 
 
 def _filler(text: str, total_words: int, phrases):
-    lowered = text.lower()
-    found = []
-    for phrase in phrases:
-        pattern = r"(?<![\w'])" + re.escape(phrase) + r"(?![\w'])"
-        count = len(re.findall(pattern, lowered))
-        if count:
-            found.append({"phrase": phrase, "count": count})
+    # One pass, longest phrase first, so "delve into" doesn't also count as "delve".
+    counts = Counter()
+    if phrases:
+        alternation = "|".join(re.escape(p) for p in sorted(set(phrases), key=len, reverse=True))
+        for match in re.finditer(r"(?<![\w'])(?:" + alternation + r")(?![\w'])", text.lower()):
+            counts[match.group(0)] += 1
+    found = [{"phrase": phrase, "count": count} for phrase, count in counts.items()]
     found.sort(key=lambda f: (-f["count"], f["phrase"]))
     hits = sum(f["count"] for f in found)
     rate = round(hits / total_words * 1000, 1) if total_words else 0.0
@@ -185,6 +223,8 @@ def measure(text: str, filler_phrases=None) -> dict:
     for kind, segment in _segments(text):
         kept.append(segment)
         if kind == "heading":
+            if ask_offset is None and ASK_MARKERS.search(segment):
+                ask_offset = total_words
             total_words += len(_words(segment))
             continue
         for piece in SENTENCE_END.split(segment):
@@ -213,12 +253,19 @@ def measure(text: str, filler_phrases=None) -> dict:
 
 
 def _decode(data: bytes):
+    if data.startswith((b"\xff\xfe", b"\xfe\xff")):
+        try:
+            return data.decode("utf-16")
+        except UnicodeDecodeError:
+            return None
     if b"\x00" in data:
         return None
-    try:
-        return data.decode("utf-8-sig")
-    except UnicodeDecodeError:
-        return data.decode("latin-1")
+    for encoding in ("utf-8-sig", "cp1252"):
+        try:
+            return data.decode(encoding)
+        except UnicodeDecodeError:
+            pass
+    return data.decode("latin-1")
 
 
 def main(argv=None) -> int:

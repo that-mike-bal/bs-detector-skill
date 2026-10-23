@@ -1,5 +1,4 @@
-# bs-detector working files
-review/
+# Built by scripts/build-zip.sh
 dist/
 
 # Local notes, not for the repo
@@ -14,3 +13,7 @@ _org/
 
 # Eval run output
 evals/results/
+
+# Python bytecode
+__pycache__/
+*.pyc

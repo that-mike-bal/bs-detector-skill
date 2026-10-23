@@ -28,7 +28,7 @@ def _measure_fields():
 
 def parse(path: Path):
     """Return (frontmatter dict, list of H2 section titles, body text)."""
-    text = path.read_text(encoding="utf-8")
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
     match = re.match(r"^---\n(.*?)\n---\n(.*)$", text, re.DOTALL)
     if not match:
         return {}, [], text
@@ -89,45 +89,66 @@ class CheckLibrary(unittest.TestCase):
         evals = ROOT / "evals" / "checks"
         missing = [
             p.stem for p in check_files()
-            if not (evals / p.stem / "prompt.md").exists() or not list((evals / p.stem / "graders").glob("*.md"))
+            if not (evals / p.stem / "prompt.md").exists() or not (evals / p.stem / "graders" / "criteria.md").exists()
         ]
         self.assertEqual(
             missing, [],
-            "add evals/checks/<name>/prompt.md and graders/ for: " + ", ".join(missing),
+            "add evals/checks/<name>/prompt.md and graders/criteria.md for: " + ", ".join(missing),
         )
+
+
+VALID_BODY = (
+    "## Look for\n\nx\n\n## How to tell\n\nx\n\n## Not this\n\nx\n\n"
+    "## When it's worst\n\n- **Stops it:** x\n\n## How it reads\n\nx\n"
+)
 
 
 class Validator(unittest.TestCase):
     """The validator itself has to catch broken checks, or the tests above prove nothing."""
 
-    def _write(self, content):
-        tmp = tempfile.NamedTemporaryFile("w", suffix=".md", delete=False, encoding="utf-8")
-        tmp.write(content)
-        tmp.close()
-        return Path(tmp.name)
+    def setUp(self):
+        self.dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.dir.cleanup)
+
+    def _write(self, name, content):
+        path = Path(self.dir.name) / name
+        path.write_text(content, encoding="utf-8")
+        return path
+
+    def _frontmatter(self, name="good", signals="none"):
+        return "---\nname: {}\nsummary: s\nsignals: {}\n---\n\n".format(name, signals)
+
+    def test_a_valid_check_has_no_errors(self):
+        path = self._write("good.md", self._frontmatter() + VALID_BODY)
+        self.assertEqual(check_errors(path, {"words"}), [])
 
     def test_missing_section_is_named(self):
-        path = self._write(
-            "---\nname: x\nsummary: s\nsignals: none\n---\n\n"
-            "## Look for\n\n## How to tell\n\n## Not this\n\n## How it reads\n"
-        )
-        try:
-            errors = check_errors(path)
-        finally:
-            path.unlink()
-        self.assertTrue(any("When it's worst" in e and path.name in e for e in errors), errors)
+        body = VALID_BODY.split("## When it's worst")[0] + "## How it reads\n\nx\n"
+        path = self._write("good.md", self._frontmatter() + body)
+        errors = check_errors(path)
+        self.assertTrue(any("When it's worst" in e and "good.md" in e for e in errors), errors)
 
     def test_unknown_signal_is_named(self):
-        path = self._write(
-            "---\nname: {}\nsummary: s\nsignals: words, vibes\n---\n\n"
-            "## Look for\n## How to tell\n## Not this\n## When it's worst\n- **Stops it:** x\n## How it reads\n"
-            .format("PLACEHOLDER")
-        )
-        try:
-            errors = check_errors(path, {"words"})
-        finally:
-            path.unlink()
-        self.assertTrue(any("'vibes'" in e for e in errors), errors)
+        path = self._write("good.md", self._frontmatter(signals="words, vibes") + VALID_BODY)
+        self.assertEqual(check_errors(path, {"words"}), ["good.md: signal 'vibes' is not a measure.py field"])
+
+    def test_name_must_match_filename(self):
+        path = self._write("good.md", self._frontmatter(name="other") + VALID_BODY)
+        self.assertEqual(check_errors(path), ["good.md: name 'other' should match the filename"])
+
+    def test_worst_section_must_name_a_level(self):
+        body = VALID_BODY.replace("- **Stops it:** x", "- Bad things happen.")
+        path = self._write("good.md", self._frontmatter() + body)
+        errors = check_errors(path)
+        self.assertTrue(any("names none of" in e for e in errors), errors)
+
+    def test_missing_frontmatter_is_named(self):
+        path = self._write("good.md", VALID_BODY)
+        self.assertEqual(check_errors(path), ["good.md: missing frontmatter"])
+
+    def test_template_is_exempt_from_name_and_level_rules(self):
+        path = self._write("_template.md", self._frontmatter(name="anything") + VALID_BODY.replace("Stops it", "Level"))
+        self.assertEqual(check_errors(path), [])
 
 
 if __name__ == "__main__":

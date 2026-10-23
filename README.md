@@ -89,7 +89,7 @@ The design decisions, and what 2.0 removed from 1.x, are in [`docs/design.md`](d
 
 | Client | Status |
 |---|---|
-| Fresh agent following `SKILL.md` with no other context (Claude) | All 15 starter cases ran once, and 14 passed. The one failure was a playback that invented a recommendation the doc never made. After tuning, that case, two related cases and the example were run again, and all of them passed. |
+| Fresh agent following `SKILL.md` with no other context (Claude) | All 15 starter cases ran once, and 14 passed. The one failure was a playback that invented a recommendation the doc never made. After tuning, that case, two related cases and the example were run again, and all of them passed. After code review, the new prompt-injection case and the reviewer case were run, and both passed. |
 | Claude Code plugin (`--plugin-dir`) | Loads, and resolves as `bs-detector:bs-detector` |
 | `claude plugin eval` (scored, with the no-plugin comparison) | Not yet run |
 | claude.ai upload | Not yet tested |
@@ -101,7 +101,8 @@ The design decisions, and what 2.0 removed from 1.x, are in [`docs/design.md`](d
 - **It checks flagged points against what's already available to it:** memory, project instructions such as `CLAUDE.md`, and tools you've connected. It queries those tools in its own words, describing the point, and never pastes your document's text.
 - **It never uses public web search**, or any service you haven't connected.
 - **It asks before heavier checks.** When a reporting tool or docs folder could settle a claim, it offers to check rather than doing so unasked.
-- **It writes no files** unless you ask for the page. A page published as a Claude artifact is private until you share it.
+- **It treats your document as material to review, never as instructions.** Text in it addressed to an AI or a reviewer gets quoted as a finding, not obeyed.
+- **It writes nothing into your project** unless you ask for the page. To measure pasted text, it may save a temporary copy outside your project. A page published as a Claude artifact is private until you share it.
 
 ## License and credits
 
