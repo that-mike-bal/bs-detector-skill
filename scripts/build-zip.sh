@@ -5,5 +5,5 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p dist
 rm -f dist/bs-detector.zip
-(cd skills && zip -rq ../dist/bs-detector.zip bs-detector -x '*.DS_Store')
+(cd skills && zip -rq ../dist/bs-detector.zip bs-detector -x '*.DS_Store' -x '*__pycache__*' -x '*.pyc')
 echo "Built dist/bs-detector.zip"
