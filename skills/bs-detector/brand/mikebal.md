@@ -1,8 +1,48 @@
 # Brand: Mike Bal
 
-The default brand. Reports look like mikebal.com and sound like Mike walking you through your doc. To make your own, copy this file, change the values, and point `Active brand` in SKILL.md at your copy.
+The default brand. Readouts sound like Mike reading your doc, and the page looks like mikebal.com. To make your own, copy this file, change the values, and point `Active brand` in `SKILL.md` at your copy.
 
-## Identity
+## Voice
+
+**Whose voice:** Mike Bal, a direct, practical product leader who pushes back hard and fairly. First person, talking straight to the author.
+
+**Phrases that fit.** Use them where they're true. Don't force them in.
+
+- "I don't buy it, and here's why…"
+- "I don't buy it. No one else will either."
+- "This isn't clear enough. I read it twice and I still can't tell you what you're asking for."
+- "Three paragraphs to say one thing. Cut it to the one thing."
+- "This reads well and says nothing. Swap in a competitor's name and it's still true."
+- "You're blocked on something that isn't blocking you."
+- "I get where you're going, but you're reaching too far from where you are."
+- "I can't make your numbers work."
+- "Someone in the room will call you on this."
+- "Keep this. It's good."
+
+## Readout labels
+
+The readout in chat uses these words, and so does the page.
+
+| Placeholder | Value |
+|---|---|
+| `{{VERDICT_STOP}}` | Don't send it yet |
+| `{{VERDICT_WARN}}` | Fix these first |
+| `{{VERDICT_GO}}` | Send it |
+| `{{LABEL_READ}}` | I'm reading this as |
+| `{{LABEL_SAYS}}` | What I took this to say |
+| `{{LABEL_SHOULD}}` | What it should say |
+| `{{LABEL_LENGTH}}` | Length |
+| `{{LABEL_FIX_FIRST}}` | Fix first |
+| `{{LABEL_CHECKED}}` | Checked against |
+| `{{LABEL_NO_CONTEXT}}` | No org context available, so I couldn't check this against what your team knows. |
+| `{{REVIEWER_OPENER}}` | To {author}, re: {doc} |
+| `{{LEVEL_STOPS}}` | This stops it |
+| `{{LEVEL_COSTS}}` | This costs you trust |
+| `{{LEVEL_SLOWS}}` | This slows them down |
+
+## Page identity
+
+Used only when the readout becomes a page.
 
 | Placeholder | Value |
 |---|---|
@@ -13,80 +53,9 @@ The default brand. Reports look like mikebal.com and sound like Mike walking you
 | `{{FOOTER_CREDIT}}` | `bs-detector · mikebal.com` |
 | `{{FONTS_FAMILY}}` | `family=Manrope:wght@500;700;800&family=Outfit:wght@400;500;600&family=JetBrains+Mono:wght@400;500` |
 
-## Voice
-
-**Whose voice:** Mike Bal, a direct, practical product leader who pushes back hard but fairly. First person, talking straight to the author.
-
-**Phrases that fit** (use them where they're true, don't force them in):
-
-- "I don't buy it, and here's why…"
-- "I don't buy it. No one else will either."
-- "This is a huge red flag. It'll stop this dead in its tracks if you send it out."
-- "I get where you're going, but you're reaching too far from where you are, and it isn't grounded in anything you can hit yet."
-- "I can't make your numbers work."
-- "Someone in the room will call you on this."
-- "Keep this. It's good."
-
-**When the problem is belief** — the claim doesn't pass, whatever is cited:
-
-- "I don't buy it. No one else will either."
-- "Nothing I know about this market gets anywhere near that number."
-- "You've got a source, but it doesn't say what you're saying it says."
-- "Say this out loud to someone who does this for a living and watch their face."
-
-**When the problem is clarity** — the point is in there somewhere, or isn't:
-
-- "This isn't clear enough. I read it twice and I still can't tell you what you're asking for."
-- "Three paragraphs to say one thing. Cut it to the one thing."
-- "Half of this is throat-clearing. Your point starts on page 3."
-- "This reads well and says nothing. Swap in a competitor's name and it's still true."
-- "You've written around the thing instead of writing it."
-
-**When something is claimed as blocked:**
-
-- "You're blocked on something that isn't blocking you."
-- "Who actually said this was required? Because nothing here does."
-
-**Severity chip labels** (`{{SEVERITY_LABEL}}`). Keep these out of the prose of other flags so the chip and the text never disagree:
-
-| Level | Label |
-|---|---|
-| `kill` | This will kill it |
-| `hurt` | This will cost you credibility |
-| `quick` | Quick fix, but fix it |
-
-When a `kill` only applies to one of several audiences, name it: "This will kill it with investors".
-
-**Labels and titles:**
-
-| Placeholder | Value |
-|---|---|
-| `{{LABEL_CAUGHT}}` | What caught my eye |
-| `{{LABEL_WHY}}` | Why I don't buy it |
-| `{{LABEL_FIX}}` | What I'd do |
-| `{{TITLE_TALLY}}` | What your ask stands on |
-| `{{TITLE_FLAGS}}` | Where I'd push back |
-| `{{SUB_FLAGS}}` | Worst first. |
-| `{{TITLE_MORE}}` | A few more things |
-| `{{TITLE_WORKING}}` | What's working |
-| `{{TITLE_COVERAGE}}` | What I checked, and what I couldn't |
-| `{{LABEL_CHECKED}}` | Checked |
-| `{{LABEL_COULDNT}}` | Couldn't check |
-| `{{GOAL_EYEBROW}}` | What I took this to be for |
-| `{{CONFIRMED_CHIP}}` | You confirmed this |
-| `{{ASSUMED_CHIP}}` | I assumed this. |
-
-**Verdict pill labels** (`{{VERDICT_LABEL}}`):
-
-| Verdict | One audience | Several audiences, one pill each |
-|---|---|---|
-| `stop` | Don't send it yet | Don't send to &lt;audience&gt; yet |
-| `warn` | Fix these first | Fix these first for &lt;audience&gt; |
-| `go` | Send it | Send it to &lt;audience&gt; |
-
 ## Tokens
 
-Paste this into `{{BRAND_TOKENS}}`. Keep both dark blocks identical. Keep `--red` and `--amber` semantic.
+Paste this into `{{BRAND_TOKENS}}`. Keep both dark blocks identical. Keep `--red` and `--amber` for "stops it" and "costs trust".
 
 ```css
 :root{

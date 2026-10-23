@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{SUBJECT}} BS Test</title>
+<!--
+bs-detector readout page. Copy it, fill it from the readout and the active brand file, then remove every HTML comment (this one included).
+
+PUBLISHING
+  Standalone file: use as-is.
+  A publisher that adds its own page skeleton (Claude Artifacts): delete the <!doctype>, <html>, <head>, <body>
+  and matching closing tags, and the two <meta> lines. Keep everything that was inside them, in the same order.
+
+RULES
+  Every {{PLACEHOLDER}} is plain text to replace. A block between REPEAT and /REPEAT repeats once per item.
+  Don't edit the layout styles. Change the look in the brand file. Escape & as &amp; in text.
+
+BRAND PLACEHOLDERS (from the active brand file)
+  WORDMARK  TILE_LETTER  REPORT_LABEL  PROMPT  FOOTER_CREDIT  FONTS_FAMILY  BRAND_TOKENS
+  LABEL_READ  LABEL_SAYS  LABEL_SHOULD  LABEL_LENGTH  LABEL_FIX_FIRST  LABEL_CHECKED  LABEL_NO_CONTEXT
+  VERDICT_LABEL   VERDICT_STOP, VERDICT_WARN or VERDICT_GO, matching VERDICT_CLASS
+  LEVEL_LABEL     LEVEL_STOPS, LEVEL_COSTS or LEVEL_SLOWS, matching LEVEL_CLASS
+  OPENER          REVIEWER_OPENER with {author} and {doc} filled in. Reviewer seat only; otherwise delete the <p class="opener">.
+
+CONTENT PLACEHOLDERS (from the readout)
+  SUBJECT        the document's title, as the author wrote it
+  DATE           review date as D Mon YYYY, e.g. 9 Oct 2026
+  FILE_SLUG      the document's file name, or a short slug of its title
+  VERDICT_CLASS  stop | warn | go
+  READ           the one-line read of purpose, audience and seat. Only when inferred or assumed; otherwise delete the <p class="read">.
+  SAYS / SHOULD  the two playback lines
+  LENGTH         the length line, e.g. "14 pages, about 1 hour. This job needs 2."
+  LEVEL_CLASS    stops | costs | slows
+  PROBLEM        the problem, said out loud
+  QUOTE          verbatim from the document. LOCATION  where it is
+  WHY_FIX        why it matters and the fix, one sentence each
+  FIX_FIRST      the one thing to fix first
+  CONTEXT        "LABEL_CHECKED: what you consulted", or LABEL_NO_CONTEXT
+  A "send it" readout has no points: delete the <ol class="points"> and the fix-first block.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?{{FONTS_FAMILY}}&display=swap">
+<style id="brand">
+{{BRAND_TOKENS}}
+</style>
+<style id="layout">
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;margin:0;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:720px;margin:0 auto}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.tile{width:34px;height:34px;border-radius:7px;background:var(--tile);color:var(--tile-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:19px}
+.word{font-family:var(--display);font-weight:800;letter-spacing:.16em;font-size:14px}
+.word span{color:var(--faint);font-weight:500;letter-spacing:.08em;margin-left:10px}
+.stamp{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+.hero{padding-block:40px 24px;display:grid;gap:12px}
+.prompt{font-family:var(--mono);font-size:13.5px;color:var(--muted);overflow-wrap:break-word}
+.prompt b{color:var(--brand-ink);font-weight:500}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,44px);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.opener,.read{margin:0;color:var(--muted)}
+.read{font-size:15px}
+.pill{justify-self:start;display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:15px;padding:7px 14px;border-radius:999px;border:1px solid}
+.pill i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.pill.stop{color:var(--red);background:var(--red-soft);border-color:color-mix(in srgb,var(--red) 30%,transparent)}
+.pill.stop i{background:var(--red)}
+.pill.warn{color:var(--amber);background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 30%,transparent)}
+.pill.warn i{background:var(--amber)}
+.pill.go{color:var(--brand-ink);background:var(--brand-soft);border-color:color-mix(in srgb,var(--brand) 35%,transparent)}
+.pill.go i{background:var(--brand)}
+.playback{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 20px;margin:0}
+.playback div{display:grid;grid-template-columns:150px 1fr;gap:16px;padding-block:12px}
+.playback div+div{border-top:1px solid var(--line)}
+.playback dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;line-height:1.45;text-transform:uppercase;color:var(--faint);padding-top:4px}
+.playback dd{margin:0;min-width:0}
+.points{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:16px;counter-reset:point}
+.point{--lvl:var(--red);--lvl-soft:var(--red-soft);counter-increment:point;border:1px solid var(--line);border-left:4px solid var(--lvl);border-radius:12px;padding:18px 20px;display:grid;gap:10px}
+.point.costs{--lvl:var(--amber);--lvl-soft:var(--amber-soft)}
+.point.slows{--lvl:var(--brand-ink);--lvl-soft:var(--brand-soft)}
+.point header{display:flex;gap:12px;align-items:baseline}
+.point header::before{content:counter(point,decimal-leading-zero);font-family:var(--mono);font-size:13px;color:var(--lvl);background:var(--lvl-soft);border-radius:6px;padding:2px 8px;flex:none}
+.point h2{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.3;margin:0;text-wrap:balance}
+.lvl{justify-self:start;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:6px;color:var(--lvl);background:var(--lvl-soft)}
+.point p{margin:0}
+q{display:block;quotes:none;font-family:var(--mono);font-size:13.5px;line-height:1.55;background:var(--quote-bg);border-left:3px solid var(--lvl);padding:8px 12px;border-radius:0 6px 6px 0;overflow-wrap:break-word}
+q cite{font-style:normal;color:var(--faint);margin-left:6px}
+.first{margin-top:28px;background:var(--brand-soft);border-radius:12px;padding:16px 20px;display:grid;gap:4px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand-ink)}
+.first p{margin:0;font-weight:600}
+.context{margin:24px 0 0;font-size:15px;color:var(--muted)}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+@media (max-width:560px){.playback div{grid-template-columns:1fr;gap:2px}.point{padding:16px}body{font-size:16px;padding-inline:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mast">
+    <div class="brand"><div class="tile" aria-hidden="true">{{TILE_LETTER}}</div><div class="word">{{WORDMARK}}<span>{{REPORT_LABEL}}</span></div></div>
+    <div class="stamp">Read {{DATE}}</div>
+  </div>
+
+  <div class="hero">
+    <div class="prompt">{{PROMPT}} <b>bs-detector</b> {{FILE_SLUG}}</div>
+    <h1>{{SUBJECT}}</h1>
+    <p class="opener">{{OPENER}}</p>
+    <p class="read">{{LABEL_READ}}: {{READ}}</p>
+    <span class="pill {{VERDICT_CLASS}}"><i></i>{{VERDICT_LABEL}}</span>
+  </div>
+
+  <dl class="playback">
+    <div><dt>{{LABEL_SAYS}}</dt><dd>{{SAYS}}</dd></div>
+    <div><dt>{{LABEL_SHOULD}}</dt><dd>{{SHOULD}}</dd></div>
+    <div><dt>{{LABEL_LENGTH}}</dt><dd>{{LENGTH}}</dd></div>
+  </dl>
+
+  <ol class="points">
+    <!-- REPEAT point: up to 5, worst first -->
+    <li class="point {{LEVEL_CLASS}}">
+      <span class="lvl">{{LEVEL_LABEL}}</span>
+      <header><h2>{{PROBLEM}}</h2></header>
+      <q>{{QUOTE}}<cite>{{LOCATION}}</cite></q>
+      <p>{{WHY_FIX}}</p>
+    </li>
+    <!-- /REPEAT point -->
+  </ol>
+
+  <div class="first">
+    <div class="eyebrow">{{LABEL_FIX_FIRST}}</div>
+    <p>{{FIX_FIRST}}</p>
+  </div>
+
+  <p class="context">{{CONTEXT}}</p>
+
+  <footer><span>{{FOOTER_CREDIT}}</span><span>{{DATE}}</span></footer>
+</div>
+</body>
+</html>

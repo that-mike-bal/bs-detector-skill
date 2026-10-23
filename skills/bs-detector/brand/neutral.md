@@ -1,8 +1,42 @@
 # Brand: Neutral
 
-No name, no logo, system fonts, slate and blue. Use it when a report shouldn't carry anyone's brand, or as the starting point for your own.
+No name, no logo, system fonts, slate and blue. Use it when a readout shouldn't carry anyone's brand, or as the starting point for your own.
 
-## Identity
+## Voice
+
+**Whose voice:** a plain, experienced reviewer. First person, talking to the author, with no signature phrases.
+
+**Phrases that fit:**
+
+- "I don't think this holds up, and here's why…"
+- "I don't find this credible, and I don't think your reader will either."
+- "This isn't clear enough. After two passes I still can't state what you're asking for."
+- "Three paragraphs for one point. Keep the point."
+- "This is well written and says very little."
+- "This is treated as a blocker, and nothing here shows that it is one."
+- "I can't get your numbers to add up."
+- "This part works. Keep it."
+
+## Readout labels
+
+| Placeholder | Value |
+|---|---|
+| `{{VERDICT_STOP}}` | Not ready to send |
+| `{{VERDICT_WARN}}` | Fix these first |
+| `{{VERDICT_GO}}` | Ready to send |
+| `{{LABEL_READ}}` | Reading this as |
+| `{{LABEL_SAYS}}` | What it seems to say |
+| `{{LABEL_SHOULD}}` | What it should say |
+| `{{LABEL_LENGTH}}` | Length |
+| `{{LABEL_FIX_FIRST}}` | Fix first |
+| `{{LABEL_CHECKED}}` | Checked against |
+| `{{LABEL_NO_CONTEXT}}` | No org context was available to check this against. |
+| `{{REVIEWER_OPENER}}` | To {author}, re: {doc} |
+| `{{LEVEL_STOPS}}` | Blocks it |
+| `{{LEVEL_COSTS}}` | Costs trust |
+| `{{LEVEL_SLOWS}}` | Slows the reader |
+
+## Page identity
 
 | Placeholder | Value |
 |---|---|
@@ -13,76 +47,9 @@ No name, no logo, system fonts, slate and blue. Use it when a report shouldn't c
 | `{{FOOTER_CREDIT}}` | `bs-detector` |
 | `{{FONTS_FAMILY}}` | none. Delete the two `preconnect` links and the Google Fonts stylesheet link. |
 
-## Voice
-
-**Whose voice:** a plain, experienced reviewer. First person, talking to the author, with no signature phrases.
-
-**Phrases that fit:**
-
-- "I don't think this holds up, and here's why…"
-- "This one will stop the conversation if you send it as is."
-- "I can't get your numbers to add up."
-- "Someone reading closely will ask about this."
-- "This part works. Keep it."
-
-**When the problem is belief** — the claim doesn't pass, whatever is cited:
-
-- "I don't find this credible, and I don't think your reader will either."
-- "Nothing here gets close to that number."
-- "The source is real, but it doesn't support this conclusion."
-
-**When the problem is clarity** — the point is in there somewhere, or isn't:
-
-- "This isn't clear enough. After two passes I still can't state what you're asking for."
-- "Three paragraphs for one point. Keep the point."
-- "Your argument starts on page 3. Everything before it is setup."
-- "This is well written and says very little."
-
-**When something is claimed as blocked:**
-
-- "This is treated as a blocker, and nothing here shows that it is one."
-- "Name what imposes this requirement, because the document doesn't."
-
-**Severity chip labels** (`{{SEVERITY_LABEL}}`). Keep these out of the prose of other flags so the chip and the text never disagree:
-
-| Level | Label |
-|---|---|
-| `kill` | Deal-breaker |
-| `hurt` | Costs you trust |
-| `quick` | Quick fix |
-
-When a `kill` only applies to one of several audiences, name it: "Deal-breaker for investors".
-
-**Labels and titles:**
-
-| Placeholder | Value |
-|---|---|
-| `{{LABEL_CAUGHT}}` | What caught my eye |
-| `{{LABEL_WHY}}` | Why it doesn't hold |
-| `{{LABEL_FIX}}` | What I'd do |
-| `{{TITLE_TALLY}}` | What your ask stands on |
-| `{{TITLE_FLAGS}}` | Where I'd push back |
-| `{{SUB_FLAGS}}` | Worst first. |
-| `{{TITLE_MORE}}` | A few more things |
-| `{{TITLE_WORKING}}` | What's working |
-| `{{TITLE_COVERAGE}}` | What I checked, and what I couldn't |
-| `{{LABEL_CHECKED}}` | Checked |
-| `{{LABEL_COULDNT}}` | Couldn't check |
-| `{{GOAL_EYEBROW}}` | What I took this to be for |
-| `{{CONFIRMED_CHIP}}` | You confirmed this |
-| `{{ASSUMED_CHIP}}` | I assumed this. |
-
-**Verdict pill labels** (`{{VERDICT_LABEL}}`):
-
-| Verdict | One audience | Several audiences, one pill each |
-|---|---|---|
-| `stop` | Don't send it yet | Don't send to &lt;audience&gt; yet |
-| `warn` | Fix these first | Fix these first for &lt;audience&gt; |
-| `go` | Ready to send | Ready for &lt;audience&gt; |
-
 ## Tokens
 
-Paste this into `{{BRAND_TOKENS}}`. Keep both dark blocks identical. Keep `--red` and `--amber` semantic.
+Paste this into `{{BRAND_TOKENS}}`. Keep both dark blocks identical. Keep `--red` and `--amber` for "stops it" and "costs trust".
 
 ```css
 :root{
