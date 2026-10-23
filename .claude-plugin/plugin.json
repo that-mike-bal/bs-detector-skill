@@ -1,7 +1,7 @@
 {
   "name": "bs-detector",
-  "description": "Pressure-test a doc, deck, spec, plan or public copy before it goes out. Confirms the goal, then hunts what won't survive the audience: claims nobody will believe, assumptions stated as settled fact, blockers that aren't real, and bloat or AI overwriting that buries the point. Returns a branded report of what will get you called out, why, and the fix.",
-  "version": "1.1.0",
+  "description": "Read a doc, deck, plan or post the way its audience will before it goes out. Get a short, blunt readout: what it seems to say, what it should say, and the few things that will make it land badly, from bloat and buried asks to claims nobody will believe, false blockers and AI slop.",
+  "version": "2.0.0",
   "icon": "./icon.png",
   "author": {
     "name": "Mike Bal",
@@ -10,5 +10,12 @@
   "homepage": "https://github.com/that-mike-bal/bs-detector-skill",
   "repository": "https://github.com/that-mike-bal/bs-detector-skill",
   "license": "MIT",
-  "keywords": ["review", "fact-check", "red-team", "writing", "skills"]
+  "keywords": [
+    "review",
+    "writing",
+    "clarity",
+    "ai-slop",
+    "feedback",
+    "skills"
+  ]
 }

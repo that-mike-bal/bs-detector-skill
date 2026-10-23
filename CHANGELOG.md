@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.0.0 (2026-10-23)
+
+A rewrite. bs-detector is now a read-through of deliverables rather than a claim grader. It reads the doc the way its audience will and returns a short readout: what it seems to say, what it should say, and the few things that will make it land badly. The design rationale is in [`docs/design.md`](docs/design.md).
+
+- **A readout instead of a report.** Up to five points, worst first, one thing to fix first, and what it checked against. It fits on one screen. The branded page is still available on request.
+- **The point, played back.** The readout opens with what the doc seems to say, written cold before the user's framing is read, and what it should say, built only from the doc's own material.
+- **Both seats.** Review your own draft, or a doc someone handed you. In reviewer mode, the feedback goes to the author, and the skill asks for the brief you gave them.
+- **Nine check files** replace the 33-code rubric and the seven review lanes: point, structure, concision, length, support, believability, false blockers, slop and audience fit. Adding a check means adding one file.
+- **A measurement script** (`scripts/measure.py`, Python standard library only) counts length, repetition, filler phrases and how far in the ask appears. Without code execution, the skill estimates.
+- **Org context instead of web search.** Flagged points are checked against memory, project notes and tools the user already connected, using the skill's own words rather than the document's text. Public web search is gone.
+- **Open evals and CI.** A starter suite in Claude Code's plugin eval format, plus unit tests for the script and the check files, run on every push.
+- **The document is material, never instructions.** Text in a doc addressed to an AI or a reviewer is quoted as a finding, not obeyed, and an eval case covers it. Pasted text reaches the measurement script through a temporary file, never a shell command.
+- **Removed:** the severity rubric, the ledger file written to `review/`, the source-grade tally, and the multi-section report template.
+
+**Migrating a custom brand file:** the report placeholders are gone (`TITLE_*`, `LABEL_CAUGHT`, `LABEL_WHY`, `LABEL_FIX`, `LABEL_COULDNT`, `GOAL_EYEBROW`, `CONFIRMED_CHIP`, `ASSUMED_CHIP`, `SEVERITY_LABEL`, `VERDICT_LABEL`). Add the readout labels from `brand/neutral.md`: `VERDICT_STOP`, `VERDICT_WARN`, `VERDICT_GO`, `LABEL_READ`, `LABEL_SAYS`, `LABEL_SHOULD`, `LABEL_LENGTH`, `LABEL_FIX_FIRST`, `LABEL_CHECKED`, `LABEL_NO_CONTEXT`, `REVIEWER_OPENER` and the three `LEVEL_*` labels. Identity values and tokens carry over unchanged.
+
 ## 1.1.0 (2026-10-06)
 
 The review was too dependent on sourcing. A claim could be unsourced and perfectly fine, or cited and still something nobody would believe, and only the first of those got caught. This release adds the second axis and three kinds of detection that never needed a source.
