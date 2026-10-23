@@ -1,0 +1,24 @@
+# Runs the unit tests for the measurement script and the check files.
+# No model calls and no secrets. The eval suite stays manual because it spends model usage.
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The oldest Python the script supports, and a current one.
+        python: ["3.8", "3.13"]
+    container: python:${{ matrix.python }}-slim
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
